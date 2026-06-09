@@ -1,101 +1,148 @@
-# Koala Clash
+# Bitumi
+
 <p align="center">
-  <img src="./build/icon.png" alt="Clash" width="128" />
+  <img src="./build/icon.png" alt="Bitumi" width="128" />
   <br>
   <br>
-  <a href="https://github.com/coolcoala/koala-clash/releases">
-    <img src="https://img.shields.io/github/release/coolcoala/koala-clash/all.svg">
+  <a href="https://github.com/kirisame-meguru/koala-clash-bitumi/releases">
+    <img src="https://img.shields.io/github/release/kirisame-meguru/koala-clash-bitumi/all.svg" alt="Releases">
   </a>
 </p>
-<h3 align="center">GUI client for <a href="https://github.com/MetaCubeX/mihomo">Mihomo</a></h3>
 
-## Features
+<h3 align="center">Bitumi Clash - визуальный форк Koala Clash для <a href="https://github.com/MetaCubeX/mihomo">Mihomo</a></h3>
+<h3 align="center"><a href="https://t.me/Bitumi_ProtectionBot">Bitumi Protection Bot (Vless VPN)</a></h3>
 
-- [x] Out-of-the-box Tun mode without service mode
-- [x] Multiple color themes
-- [x] Support for most Mihomo configuration options
-- [x] Built-in Mihomo cores (stable and alpha)
+## Что это
 
-## Screenshots
+`Bitumi` - это визуальный форк `Koala Clash`, адаптированный под экосистему Bitumi.
+По функциональности приложение остается совместимым с оригинальной идеей Koala Clash, но интерфейс, брендинг и сценарии использования подстроены под проект Bitumi.
+
+Это не попытка "переписать все с нуля", а аккуратный форк с сохранением сильных сторон исходного клиента.
+
+## Что изменено в форке
+
+- Компактный интерфейс без лишних режимов и переключений.
+- Импорт подписки по `bitumi://` происходит сразу, без отдельного окна подтверждения.
+- Приложение устанавливается как отдельный продукт `Bitumi Clash`.
+- Проверка обновлений смотрит только в релизы этого форка и предлагает пользователю скачать новую версию.
+- Визуальная часть и пользовательский сценарий упрощены под использование с сервисом Bitumi.
+
+## Скриншот
+
+### Оригинальный интерфейс
 ![Preview](./docs/preview.png)
 
-## Development
+### Новый интерфейс
+| Светлая тема | Темная тема |
+| :---: | :---: |
+| ![Preview](./docs/light_theme.png) | ![Preview](./docs/dark_theme.png) |
 
-### Requirements
+## Установка
 
-- **Node.js** >= 20.0.0
-- **pnpm** >= 9.0.0
-- **Git**
+Для Windows в релизах достаточно двух файлов:
 
-### Tech Stack
+- `Bitumi Clash_x64-setup.exe` - обычный установщик
+- `Bitumi Clash_x64-portable.7z` - портативная версия без установки
 
-Koala Clash is built with Electron + React + TypeScript.
+### Вариант 1. Установщик
 
-**Frontend:** React 19, shadcn/UI, Tailwind CSS, Monaco Editor
+1. Скачайте `Bitumi Clash_x64-setup.exe` со страницы [Releases](https://github.com/kirisame-meguru/koala-clash-bitumi/releases).
+2. Запустите установщик и завершите стандартную установку.
+3. После установки приложение появится в меню "Пуск" как `Bitumi Clash`.
 
-**Backend:** Electron, Mihomo Core, sysproxy-go
+### Вариант 2. Portable
 
-### Quick Start
+1. Скачайте `Bitumi Clash_x64-portable.7z`.
+2. Распакуйте архив в любую папку.
+3. Запустите `Bitumi Clash.exe`.
+
+### Если Windows показывает предупреждение
+
+Сборка может показывать предупреждение `SmartScreen`, потому что приложение не подписано платным сертификатом кода.
+Это типичное поведение для небольших open-source проектов на Electron и само по себе не означает наличие вируса.
+
+Если файл скачан с официальной страницы релизов этого репозитория, можно нажать `Подробнее` -> `Выполнить в любом случае`.
+
+## Почему проекту можно доверять
+
+Абсолютно "доказать отсутствие вирусов" одной фразой невозможно, но у пользователя есть несколько нормальных способов проверить проект самостоятельно:
+
+- Исходный код открыт и полностью лежит в этом репозитории.
+- Приложение можно собрать локально из исходников и сравнить поведение со скачанным релизом.
+- Проверка обновлений привязана к релизам этого репозитория, поэтому приложение не подтягивает бинарники из оригинального Koala Clash.
+- Состав проекта прозрачен: это Electron-приложение с GUI для Mihomo, без закрытого лаунчера и без скрытой логики обновления.
+- Любой релиз можно дополнительно проверить локальным антивирусом или загрузить на [VirusTotal](https://www.virustotal.com/gui/home/upload).
+
+Для ручной проверки хэша в Windows можно использовать:
+
+```powershell
+Get-FileHash ".\Bitumi Clash_x64-setup.exe" -Algorithm SHA256
+Get-FileHash ".\Bitumi Clash_x64-portable.7z" -Algorithm SHA256
+```
+
+Если вы хотите максимальной прозрачности, лучший вариант - собрать приложение самостоятельно из этого репозитория.
+
+## Deeplink для импорта подписки
+
+Форк поддерживает прямой импорт подписки по схеме:
+
+```text
+bitumi://install-config?url=https%3A%2F%2Fexample.com%2Fconnect%2Ftoken&name=Bitumi
+```
+
+Где:
+
+- `url` - закодированная ссылка на подписку
+- `name` - необязательное имя профиля
+
+## Разработка
+
+### Требования
+
+- `Node.js` 20+
+- `pnpm` 10+ или `npm`
+- `Git`
+
+### Быстрый старт
 
 ```bash
-git clone https://github.com/coolcoala/koala-clash.git
-cd koala-clash
+git clone https://github.com/kirisame-meguru/koala-clash-bitumi.git Bitumi
+cd Bitumi
 pnpm install
 pnpm dev
 ```
 
-If Electron fails to install:
+Если удобнее через `npm`, основные команды тоже работают:
 
 ```bash
-cd node_modules/electron && node install.js && cd ../..
+npm install
+npm run dev
 ```
 
-### Project Structure
-
-```
-src/
-├── main/               # Electron main process
-│   ├── core/           # Mihomo core management
-│   ├── config/         # Configuration management
-│   ├── resolve/        # Tray, shortcuts, auto-updater, floating window
-│   ├── sys/            # System integration (sysproxy, autorun)
-│   └── utils/          # Utilities
-├── renderer/           # React frontend
-│   └── src/
-│       ├── components/ # React components
-│       ├── pages/      # Page components
-│       ├── hooks/      # Hooks and context providers
-│       └── utils/      # Frontend utilities
-├── preload/            # Preload scripts (IPC bridge)
-└── shared/types/       # Shared TypeScript types
-```
-
-### Commands
-
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start dev server (renderer hot reloads, main requires restart) |
-| `pnpm lint` | Run ESLint |
-| `pnpm format` | Run Prettier |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm build:win` | Build for Windows |
-| `pnpm build:mac` | Build for macOS |
-| `pnpm build:linux` | Build for Linux |
-
-Architecture and format can be specified via flags:
+### Сборка
 
 ```bash
-pnpm build:win nsis --x64
-pnpm build:mac pkg --arm64
-pnpm build:linux deb --x64
+npm run typecheck
+npm run build:win
 ```
 
-### Build Artifacts
+Готовые файлы сборки появятся в папке `dist/`.
 
-- **Windows**: `.exe` (NSIS installer), `.7z` (portable)
-- **macOS**: `.pkg`
-- **Linux**: `.deb`, `.rpm`, `.pkg.tar.xz` (pacman)
+Подробный порядок выпуска новой версии описан в [docs/release-guide.md](./docs/release-guide.md).
 
-## Credits
+## Стек
 
-Based on [Sparkle](https://github.com/xishang0128/sparkle) by [xishang0128](https://github.com/xishang0128).
+- `Electron`
+- `React`
+- `TypeScript`
+- `Mihomo`
+
+## Благодарность авторам
+
+Этот проект появился благодаря работе авторов исходных проектов:
+
+- [coolcoala/koala-clash](https://github.com/coolcoala/koala-clash) - основа текущего форка
+- [xishang0128/sparkle](https://github.com/xishang0128/sparkle) - проект, на котором изначально базировался Koala Clash
+
+Если вам нравится `Bitumi`, пожалуйста, не забывайте и про авторов оригинального софта.
+Без их работы этого форка бы не было.

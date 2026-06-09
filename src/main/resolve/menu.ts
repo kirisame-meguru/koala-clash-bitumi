@@ -15,15 +15,15 @@ export async function createApplicationMenu(): Promise<void> {
 
   const template: Electron.MenuItemConstructorOptions[] = [
     {
-      label: 'Koala Clash',
+      label: 'Bitumi',
       submenu: [
         {
-          label: t('menu.about') + ' ' + 'Koala Clash',
+          label: t('menu.about') + ' ' + 'Bitumi',
           role: 'about'
         },
         { type: 'separator' },
         {
-          label: t('menu.hide') + ' ' + 'Koala Clash',
+          label: t('menu.hide') + ' ' + 'Bitumi',
           accelerator: 'Command+H',
           role: 'hide'
         },
@@ -172,13 +172,13 @@ export async function createApplicationMenu(): Promise<void> {
         {
           label: t('menu.learnMore'),
           click: () => {
-            shell.openExternal('https://github.com/coolcoala/koala-clash')
+            shell.openExternal('https://github.com/kirisame-meguru/koala-clash-bitumi')
           }
         },
         {
           label: t('menu.reportIssue'),
           click: () => {
-            shell.openExternal('https://github.com/coolcoala/koala-clash/issues')
+            shell.openExternal('https://github.com/kirisame-meguru/koala-clash-bitumi/issues')
           }
         },
         { type: 'separator' },
@@ -188,7 +188,7 @@ export async function createApplicationMenu(): Promise<void> {
             dialog.showMessageBox(mainWindow!, {
               type: 'info',
               title: t('menu.aboutApp'),
-              message: 'Koala Clash',
+              message: 'Bitumi',
               detail: `${t('menu.version')}：${app.getVersion()}\n${t('menu.electronProxyTool')}`,
               buttons: [t('menu.ok')]
             })
