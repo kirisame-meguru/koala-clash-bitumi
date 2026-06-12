@@ -135,6 +135,8 @@ export async function generateProfile(): Promise<void> {
 
   const profile = deepMerge(JSON.parse(JSON.stringify(currentProfile)), configToMerge)
 
+  injectGlobalOutboundGroup(profile)
+
   const tunEnabled = profile.tun?.enable ?? false
   if (!tunEnabled && !proxyModeEnabled) {
     profile.port = 0
@@ -155,6 +157,42 @@ export async function generateProfile(): Promise<void> {
     diffWorkDir ? mihomoWorkConfigPath(current) : mihomoWorkConfigPath('work'),
     runtimeConfigStr
   )
+}
+
+// Curate the GLOBAL selector so global mode can only egress through a real VPN node.
+//
+// When the profile defines no GLOBAL group, mihomo auto-fills GLOBAL with DIRECT,
+// REJECT, every proxy node AND every proxy-group (Selector). That lets the GLOBAL
+// selector default to / fall back on DIRECT, which defeats the FULL (global mode)
+// switch. We replace it with a `select` group containing only the subscription's
+// own outbound nodes (and proxy-provider sets), dropping DIRECT / REJECT and the
+// other policy groups entirely.
+function injectGlobalOutboundGroup(profile: MihomoConfig): void {
+  const groups = (
+    Array.isArray(profile['proxy-groups']) ? profile['proxy-groups'] : []
+  ) as { name?: string }[]
+
+  // Respect a GLOBAL group the profile author defined explicitly.
+  if (groups.some((group) => group?.name === 'GLOBAL')) return
+
+  const proxies = (Array.isArray(profile.proxies) ? profile.proxies : []) as { name?: string }[]
+  const proxyNames = proxies
+    .map((proxy) => proxy?.name)
+    .filter((name): name is string => typeof name === 'string' && name.length > 0)
+
+  const providerNames =
+    profile['proxy-providers'] && typeof profile['proxy-providers'] === 'object'
+      ? Object.keys(profile['proxy-providers'])
+      : []
+
+  // Nothing to route through — leave mihomo's default GLOBAL in place.
+  if (proxyNames.length === 0 && providerNames.length === 0) return
+
+  const globalGroup: Record<string, unknown> = { name: 'GLOBAL', type: 'select' }
+  if (proxyNames.length) globalGroup.proxies = proxyNames
+  if (providerNames.length) globalGroup.use = providerNames
+
+  profile['proxy-groups'] = [...groups, globalGroup] as unknown as []
 }
 
 async function cleanProfile(

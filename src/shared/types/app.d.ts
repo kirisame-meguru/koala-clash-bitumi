@@ -66,15 +66,17 @@ interface AppConfig {
   autoSetDNSMode?: 'none' | 'exec' | 'service'
   originDNS?: string
   useWindowFrame: boolean
+  compactWindow?: boolean
   proxyInTray: boolean
   appTheme: AppTheme
   customTheme?: string
-  autoCheckUpdate: boolean
   silentStart: boolean
   autoCloseConnection: boolean
   expandProxyGroups?: boolean
   sysProxy: ISysProxyConfig
   proxyMode: boolean
+  /** show the Global outbound-mode toggle on the Home screen */
+  globalModeToggle?: boolean
   maxLogDays: number
   userAgent?: string
   delayTestConcurrency?: number
@@ -105,6 +107,11 @@ interface AppConfig {
   disableGPU: boolean
   mainSwitchMode?: 'tun' | 'sysproxy'
   useHotReloadProfile?: boolean
+  enableConnectionsTab?: boolean
+  enableRulesTab?: boolean
+  enableLogsTab?: boolean
+  enableProfilesTab?: boolean
+  enableProxiesTab?: boolean
 }
 
 interface ProfileConfig {
