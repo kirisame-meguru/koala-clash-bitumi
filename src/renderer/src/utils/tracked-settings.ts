@@ -263,15 +263,6 @@ export const TRACKED_SETTINGS: TrackedSetting[] = [
     }
   },
   {
-    id: 'tun.enable',
-    section: 'main',
-    route: '/settings',
-    labelKey: 'sider.virtualInterface',
-    kind: 'bool',
-    default: false,
-    get: mihomoGet('tun.enable')
-  },
-  {
     id: 'proxyMode',
     section: 'main',
     route: '/settings',
