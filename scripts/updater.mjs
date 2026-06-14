@@ -41,4 +41,3 @@ if (process.env.SKIP_CHANGELOG !== '1') {
 }
 writeFileSync('latest.yml', yaml.stringify(latest))
 writeFileSync('changelog.md', changelog)
-writeFileSync('rawChangelog.md', rawChangelog)

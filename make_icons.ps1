@@ -27,7 +27,7 @@
     pre-windowed cardboard-box artwork in build/installerIcon_template.png (a
     256px box whose card slot is a transparent window, flaps opaque on top).
     The logo shows through edge-to-edge and tucks behind the flaps. The window
-    is baked once by prepare_installer_template.ps1.
+    is pre-baked into build/installerIcon_template.png.
 #>
 
 $ErrorActionPreference = 'Stop'
@@ -142,7 +142,6 @@ function New-Icns {
 # while the box's tan front flaps remain opaque on top. So the only work left is
 # to render the logo at the card's size and slip it BEHIND the box -- the window
 # clips it to the rounded card shape and the flaps occlude it automatically.
-# See prepare_installer_template.ps1 for how the window is baked.
 #
 # Card placement within the 256x256 template: origin (59,8), size 138x138.
 function New-InstallerIcon {

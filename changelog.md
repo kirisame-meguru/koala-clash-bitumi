@@ -1,15 +1,35 @@
-## 1.2.3
+## 0.0.3
 
-- fixed release version metadata so the installed app reports 1.2.3
-- rebuilt Windows installer and portable package for the 1.2.3 release
+First release of **Bitumi Clash**, a Windows-focused fork of Koala Clash.
 
-## 1.2.0
+### Rebrand
 
-- reduced memory usage
-- fix problem with deeplink alert after restart with autostart enabled
-- implement hot reloading config
-- fix bug with adding a rule at the end
-- fixed an issue with retrieving data via a proxy
-- fixed an issue with profile updates (please test)
-- ui fixes
-- other optimizations
+- renamed the app from Koala Clash to Bitumi Clash, with a new icon set and installer artwork
+- restyled the color palette from magenta to coral-pink and indigo
+
+### Interface
+
+- redesigned the UI for a compact window
+- reworked the Home page with a subscription info grid and a live status log
+- added live action progress tracking so long-running operations report their state
+- added a Home button to sub-page headers
+- collapsed the auto proxy grid to a single column when node names would otherwise truncate
+
+### Behavior
+
+- restricted global mode to nodes from your subscription
+- added settings change detection with configurable tabs
+- reworked Windows autostart and the elevated-task runner
+- replaced the bundled auto-updater with a GitHub release check
+- structured IPC errors and unified how errors are shown
+
+### Fixes
+
+- fixed the white screen on launch by pinning the Vite dev server to IPv4
+- hardened startup, deep-link handling, and window layout
+
+### Build & release
+
+- regenerated the icon set and installer tooling under the Bitumi brand
+- reworked the release pipeline for Windows-only builds
+- removed the Telegram release notification integration
