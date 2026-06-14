@@ -3,33 +3,33 @@
 
 :root {
   --radius: 0.5rem;
-  --background: rgb(255 247 255 / 82%);
-  --foreground: #26112f;
-  --card: #fffaff;
-  --card-foreground: #26112f;
-  --primary: #d946ef;
+  --background: rgb(255 247 250 / 82%);
+  --foreground: #2a1620;
+  --card: #fffafc;
+  --card-foreground: #2a1620;
+  --primary: #e6446a;
   --primary-foreground: #ffffff;
-  --muted: #fae8ff;
-  --muted-foreground: #7f4d8d;
-  --stroke: rgb(217 70 239 / 24%);
-  --accent: #f5d0fe;
-  --gradient-end-power-on: #d946ef;
-  --border: rgb(217 70 239 / 20%);
+  --muted: #ffe4ea;
+  --muted-foreground: #8a6472;
+  --stroke: rgb(255 101 132 / 24%);
+  --accent: #ffd6de;
+  --gradient-end-power-on: #ff6584;
+  --border: rgb(255 101 132 / 20%);
 }
 
 .dark {
-  --background: rgb(23 16 31 / 80%);
-  --foreground: #fff5ff;
-  --card: #22162d;
-  --card-foreground: #fff5ff;
-  --primary: #d946ef;
+  --background: rgb(26 18 34 / 80%);
+  --foreground: #fff3f6;
+  --card: #251733;
+  --card-foreground: #fff3f6;
+  --primary: #ff6584;
   --primary-foreground: #ffffff;
-  --muted: #2e1c3a;
-  --muted-foreground: #caa5d3;
-  --stroke: rgb(217 70 239 / 28%);
-  --accent: #3a1747;
-  --gradient-end-power-on: #d946ef;
-  --border: rgb(217 70 239 / 22%);
+  --muted: #2c1c30;
+  --muted-foreground: #d3a6b8;
+  --stroke: rgb(255 101 132 / 28%);
+  --accent: #43203c;
+  --gradient-end-power-on: #ff6584;
+  --border: rgb(255 101 132 / 22%);
 }
 
 @theme inline {
