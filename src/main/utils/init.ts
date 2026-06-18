@@ -29,6 +29,7 @@ import { triggerSysProxy } from '../sys/sysproxy'
 import {
   getAppConfig,
   getControledMihomoConfig,
+  getCurrentProfileItem,
   patchAppConfig,
   patchControledMihomoConfig
 } from '../config'
@@ -163,8 +164,15 @@ async function migration(): Promise<void> {
     mihomoConfigPatch['external-controller'] = ''
   }
 
+  // Only drop out of global mode on startup when it isn't actually allowed:
+  // the user hasn't opted into the global toggle, or the current profile forbids
+  // it. Otherwise honour the persisted mode so the slider survives a restart.
   if (mihomoConfig.mode === 'global') {
-    mihomoConfigPatch.mode = 'rule'
+    const currentProfile = await getCurrentProfileItem().catch(() => undefined)
+    const globalModeAllowed = appConfig.globalModeToggle && currentProfile?.globalMode !== false
+    if (!globalModeAllowed) {
+      mihomoConfigPatch.mode = 'rule'
+    }
   }
 
   if (Object.keys(mihomoConfigPatch).length > 0) {
