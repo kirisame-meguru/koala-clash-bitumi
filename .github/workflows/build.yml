@@ -104,36 +104,36 @@ jobs:
           SKIP_PREPARE=1 pnpm install
           pnpm prepare --${{ matrix.arch }}
 
-      - name: Detect Apple Signing
-        id: apple
+      # Configure macOS signing only when secrets exist. We write the CSC_*/APPLE_*
+      # vars to $GITHUB_ENV exclusively in the signed case — setting them to empty
+      # strings would make electron-builder resolve an empty CSC_LINK to the project
+      # dir and fail with "<projectDir> not a file". For unsigned builds we instead
+      # set CSC_IDENTITY_AUTO_DISCOVERY=false so signing is cleanly skipped.
+      - name: Configure Apple Signing
         if: matrix.os == 'macos-latest'
         shell: bash
         run: |
           if [ -n "${{ secrets.APPLE_CERTIFICATE }}" ]; then
-            echo "signing=true" >> "$GITHUB_OUTPUT"
+            echo "Apple signing secrets found - building SIGNED, notarized macOS package."
+            mkdir -p ~/.appstoreconnect/private_keys
+            echo "${{ secrets.APPLE_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APPLE_API_KEY }}.p8
+            {
+              echo "CSC_LINK=${{ secrets.APPLE_CERTIFICATE }}"
+              echo "CSC_KEY_PASSWORD=${{ secrets.APPLE_CERTIFICATE_PASSWORD }}"
+              echo "CSC_NAME=${{ secrets.APPLE_SIGNING_IDENTITY }}"
+              echo "APPLE_API_KEY_ID=${{ secrets.APPLE_API_KEY }}"
+              echo "APPLE_API_ISSUER=${{ secrets.APPLE_API_ISSUER }}"
+              echo "APPLE_API_KEY=$HOME/.appstoreconnect/private_keys/AuthKey_${{ secrets.APPLE_API_KEY }}.p8"
+            } >> "$GITHUB_ENV"
           else
-            echo "signing=false" >> "$GITHUB_OUTPUT"
             echo "::warning::APPLE_* secrets not present - building UNSIGNED, un-notarized macOS package."
+            echo "CSC_IDENTITY_AUTO_DISCOVERY=false" >> "$GITHUB_ENV"
           fi
-
-      - name: Create Apple API Key file
-        if: matrix.os == 'macos-latest' && steps.apple.outputs.signing == 'true'
-        run: |
-          mkdir -p ~/.appstoreconnect/private_keys
-          echo "${{ secrets.APPLE_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APPLE_API_KEY }}.p8
 
       - name: Build
         env:
           npm_config_arch: ${{ matrix.arch }}
           npm_config_target_arch: ${{ matrix.arch }}
-          # Sign only when secrets exist; otherwise force unsigned.
-          CSC_IDENTITY_AUTO_DISCOVERY: ${{ matrix.os == 'macos-latest' && steps.apple.outputs.signing == 'true' }}
-          CSC_LINK: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_CERTIFICATE || '' }}
-          CSC_KEY_PASSWORD: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_CERTIFICATE_PASSWORD || '' }}
-          CSC_NAME: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_SIGNING_IDENTITY || '' }}
-          APPLE_API_KEY_ID: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_API_KEY || '' }}
-          APPLE_API_ISSUER: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_API_ISSUER || '' }}
-          APPLE_API_KEY: ${{ steps.apple.outputs.signing == 'true' && format('~/.appstoreconnect/private_keys/AuthKey_{0}.p8', secrets.APPLE_API_KEY) || '' }}
         shell: bash
         run: |
           if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
