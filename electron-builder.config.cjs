@@ -68,7 +68,9 @@ module.exports = {
     hardenedRuntime: true,
     entitlements: 'build/entitlements.mac.plist',
     entitlementsInherit: 'build/entitlements.mac.plist',
-    notarize: false,
+    // Notarize only when the workflow injects Apple API-key env (i.e. signing).
+    // Unsigned builds leave APPLE_API_KEY_ID unset -> notarize: false.
+    notarize: process.env.APPLE_API_KEY_ID ? true : false,
     extendInfo: [
       { NSCameraUsageDescription: "Application requests access to the device's camera." },
       { NSMicrophoneUsageDescription: "Application requests access to the device's microphone." },

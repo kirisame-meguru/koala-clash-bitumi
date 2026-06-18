@@ -29,6 +29,36 @@ jobs:
           - os: windows-latest
             arch: x64
             format: nsis
+          - os: windows-latest
+            arch: arm64
+            format: 7z
+          - os: windows-latest
+            arch: arm64
+            format: nsis
+
+          - os: ubuntu-latest
+            arch: x64
+            format: deb
+          - os: ubuntu-latest
+            arch: x64
+            format: rpm
+          - os: ubuntu-latest
+            arch: x64
+            format: pacman
+          - os: ubuntu-latest
+            arch: arm64
+            format: deb
+          - os: ubuntu-latest
+            arch: arm64
+            format: rpm
+          - os: ubuntu-latest
+            arch: arm64
+            format: pacman
+
+          - os: macos-latest
+            arch: x64
+          - os: macos-latest
+            arch: arm64
 
     name: Build ${{ matrix.os }}-${{ matrix.arch }}${{ matrix.format && '-' || '' }}${{ matrix.format || '' }}
 
@@ -61,6 +91,10 @@ jobs:
 
           jq --arg version "$RELEASE_VERSION" '.version = $version' package.json > tmp.json && mv tmp.json package.json
 
+      - name: Install Build Tools
+        if: matrix.os == 'ubuntu-latest' && matrix.format == 'pacman'
+        run: sudo apt-get update && sudo apt-get install -y libarchive-tools fakeroot
+
       - name: Install Dependencies and Prepare
         env:
           npm_config_arch: ${{ matrix.arch }}
@@ -70,13 +104,45 @@ jobs:
           SKIP_PREPARE=1 pnpm install
           pnpm prepare --${{ matrix.arch }}
 
+      - name: Detect Apple Signing
+        id: apple
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: |
+          if [ -n "${{ secrets.APPLE_CERTIFICATE }}" ]; then
+            echo "signing=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "signing=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::APPLE_* secrets not present - building UNSIGNED, un-notarized macOS package."
+          fi
+
+      - name: Create Apple API Key file
+        if: matrix.os == 'macos-latest' && steps.apple.outputs.signing == 'true'
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          echo "${{ secrets.APPLE_API_KEY_CONTENT }}" > ~/.appstoreconnect/private_keys/AuthKey_${{ secrets.APPLE_API_KEY }}.p8
+
       - name: Build
         env:
           npm_config_arch: ${{ matrix.arch }}
           npm_config_target_arch: ${{ matrix.arch }}
-          CSC_IDENTITY_AUTO_DISCOVERY: false
+          # Sign only when secrets exist; otherwise force unsigned.
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ matrix.os == 'macos-latest' && steps.apple.outputs.signing == 'true' }}
+          CSC_LINK: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_CERTIFICATE || '' }}
+          CSC_KEY_PASSWORD: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_CERTIFICATE_PASSWORD || '' }}
+          CSC_NAME: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_SIGNING_IDENTITY || '' }}
+          APPLE_API_KEY_ID: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_API_KEY || '' }}
+          APPLE_API_ISSUER: ${{ steps.apple.outputs.signing == 'true' && secrets.APPLE_API_ISSUER || '' }}
+          APPLE_API_KEY: ${{ steps.apple.outputs.signing == 'true' && format('~/.appstoreconnect/private_keys/AuthKey_{0}.p8', secrets.APPLE_API_KEY) || '' }}
         shell: bash
-        run: pnpm build:win ${{ matrix.format }} --${{ matrix.arch }}
+        run: |
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            pnpm build:win ${{ matrix.format }} --${{ matrix.arch }}
+          elif [[ "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            pnpm build:linux ${{ matrix.format }} --${{ matrix.arch }}
+          else
+            pnpm build:mac --${{ matrix.arch }}
+          fi
 
       - name: Add Portable Flag
         if: matrix.os == 'windows-latest' && matrix.format == '7z'
