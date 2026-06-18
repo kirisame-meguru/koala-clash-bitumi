@@ -3,7 +3,8 @@ import { calcTraffic } from './utils/calc'
 import { showContextMenu, triggerMainWindow } from './utils/ipc'
 import { useAppConfig } from './hooks/use-app-config'
 import { useControledMihomoConfig } from './hooks/use-controled-mihomo-config'
-import bitumiLogo from '@renderer/assets/bitumi-logo.png'
+import appLogo from '@renderer/assets/app-logo.png'
+import { appName } from '@shared/branding'
 
 const FloatingApp: React.FC = () => {
   const { appConfig } = useAppConfig()
@@ -80,7 +81,7 @@ const FloatingApp: React.FC = () => {
             }
             className={`app-nodrag cursor-pointer floating-thumb flex items-center justify-center ${tunEnabled ? 'bg-gradient-end-power-on' : proxyModeEnabled ? 'bg-primary' : 'bg-muted'} hover:opacity-80 rounded-full h-[calc(100%-4px)] aspect-square`}
           >
-            <img src={bitumiLogo} alt="Bitumi" className="floating-icon aspect-square size-[72%] rounded-full object-contain" />
+            <img src={appLogo} alt={appName} className="floating-icon aspect-square size-[72%] rounded-full object-contain" />
           </div>
         </div>
         <div className="w-full overflow-hidden">

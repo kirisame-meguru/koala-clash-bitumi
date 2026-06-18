@@ -14,7 +14,8 @@ import {
   AccordionTrigger
 } from '@renderer/components/ui/accordion'
 import { cn } from '@renderer/lib/utils'
-import bitumiLogo from '@renderer/assets/bitumi-logo.png'
+import appLogo from '@renderer/assets/app-logo.png'
+import { appName } from '@shared/branding'
 
 interface TrafficData {
   up: number
@@ -106,8 +107,8 @@ const TrayMenuApp: React.FC = () => {
     <div className="glass-surface flex flex-col h-screen w-screen overflow-hidden rounded-lg">
       <div className="flex items-center justify-between px-3 py-2 border-b border-stroke">
         <div className="flex items-center gap-2">
-          <img src={bitumiLogo} alt="Bitumi" className="aspect-square size-5 rounded-md object-contain" />
-          <span className="text-sm font-semibold">Bitumi</span>
+          <img src={appLogo} alt={appName} className="aspect-square size-5 rounded-md object-contain" />
+          <span className="text-sm font-semibold">{appName}</span>
         </div>
         <div className="flex items-center gap-1">
           <Button size="icon-xs" variant="ghost" onClick={handleRefresh}>

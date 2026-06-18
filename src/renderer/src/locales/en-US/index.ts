@@ -204,7 +204,7 @@ export default {
       entries: '{{count}} entries',
       warningTitle: 'Unsupported Settings',
       warningBody:
-        'Some settings are not supported by Bitumi services. Expect connection problems and the lowest priority from our support team.'
+        'Some settings are not supported by {{appName}} services. Expect connection problems and the lowest priority from our support team.'
     },
     settings: {
       title: 'Application Settings',
@@ -445,7 +445,7 @@ export default {
     pleaseConfirm: 'Please Confirm',
     confirmDelete: 'Confirm Delete',
     confirmImportProfile: 'Confirm import subscription config?',
-    confirmQuit: 'Are you sure you want to quit Bitumi?',
+    confirmQuit: 'Are you sure you want to quit {{appName}}?',
     quitWarning: 'Proxy functionality will stop working after quitting',
     quickQuitHint: 'Double press or long press',
     canQuitDirectly: 'to quit directly',
@@ -692,7 +692,7 @@ export default {
       registerTaskSchedule: 'Register Task Schedule'
     },
     serviceModal: {
-      title: 'Bitumi Service Management',
+      title: '{{appName}} Service Management',
       serviceStatus: 'Service Status',
       connectionStatus: 'Connection Status',
       checking: 'Checking',
@@ -1003,7 +1003,7 @@ export default {
     sidebarHomeDesc: 'Click the Home icon in the sidebar to return and finish the tutorial.',
     supportTitle: 'Support',
     supportDesc: 'Click here to contact your provider support.',
-    welcome: 'Welcome to Bitumi',
+    welcome: 'Welcome to {{appName}}',
     welcomeDesc:
       'This is an interactive tutorial to help you quickly get familiar with this app. Click "Next" to continue.',
     navbar: 'Navigation Bar',

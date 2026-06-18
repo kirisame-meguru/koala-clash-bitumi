@@ -1,5 +1,6 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import { appName } from '@shared/branding'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
@@ -53,7 +54,10 @@ i18n
     lng: savedLanguage,
     fallbackLng: 'en-US',
     interpolation: {
-      escapeValue: false
+      escapeValue: false,
+      // App name is branded via {{appName}} in locale strings so a fork
+      // can rename everything from branding.json without touching locales.
+      defaultVariables: { appName }
     },
     react: {
       useSuspense: false

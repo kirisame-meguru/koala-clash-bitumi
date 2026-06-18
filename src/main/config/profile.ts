@@ -324,6 +324,14 @@ export async function createProfile(
       if (globalModeKey) {
         newItem.globalMode = headers[globalModeKey].toLowerCase() !== 'false'
       }
+      // Fixed server-contract header (X-Clashapp-Unsupported-Cfg-Warn): opt in to
+      // surfacing the "changed settings" warning for this profile.
+      const unsupportedCfgWarnKey = Object.keys(headers).find((k) =>
+        k.toLowerCase().endsWith('unsupported-cfg-warn')
+      )
+      if (unsupportedCfgWarnKey) {
+        newItem.unsupportedCfgWarn = headers[unsupportedCfgWarnKey].toLowerCase() === 'true'
+      }
       const announceKey = Object.keys(headers).find((k) =>
         k.toLowerCase().endsWith('announce')
       )

@@ -1,7 +1,8 @@
 import { app, BrowserWindow, dialog, net, shell, type MessageBoxOptions } from 'electron'
 import { t } from '../utils/i18n'
+import { updateRepo, updateUserAgent } from '../../shared/branding'
 
-const UPDATE_REPO = 'kirisame-meguru/koala-clash-bitumi'
+const UPDATE_REPO = updateRepo
 const LATEST_RELEASE_URL = `https://api.github.com/repos/${UPDATE_REPO}/releases/latest`
 const MAX_CHANGELOG_LENGTH = 1800
 
@@ -95,7 +96,7 @@ async function fetchLatestRelease(): Promise<GithubRelease | undefined> {
   const response = await net.fetch(LATEST_RELEASE_URL, {
     headers: {
       Accept: 'application/vnd.github+json',
-      'User-Agent': 'Bitumi-Clash'
+      'User-Agent': updateUserAgent
     }
   })
 

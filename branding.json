@@ -1,0 +1,11 @@
+{
+  "appId": "com.clashapp.app",
+  "productName": "ClashApp",
+  "appName": "ClashApp",
+  "packageName": "clashapp",
+  "protocolScheme": "clashapp",
+  "protocolName": "ClashApp URI Scheme",
+  "userAgentProduct": "clashapp",
+  "updateUserAgent": "ClashApp",
+  "updateRepo": "kirisame-meguru/clashapp"
+}

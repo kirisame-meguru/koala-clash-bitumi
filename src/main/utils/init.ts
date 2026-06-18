@@ -38,6 +38,7 @@ import { startSSIDCheck } from '../sys/ssid'
 import { startNetworkDetection } from '../core/manager'
 import { initKeyManager } from '../service/manager'
 import { migrateFromOldApp } from './migration'
+import { protocolScheme } from '../../shared/branding'
 
 async function initDirs(): Promise<void> {
   if (!existsSync(dataDir())) {
@@ -205,10 +206,12 @@ async function migration(): Promise<void> {
 function initDeeplink(): void {
   if (process.defaultApp) {
     if (process.argv.length >= 2) {
-      app.setAsDefaultProtocolClient('bitumi', process.execPath, [path.resolve(process.argv[1])])
+      app.setAsDefaultProtocolClient(protocolScheme, process.execPath, [
+        path.resolve(process.argv[1])
+      ])
     }
   } else {
-    app.setAsDefaultProtocolClient('bitumi')
+    app.setAsDefaultProtocolClient(protocolScheme)
   }
 }
 

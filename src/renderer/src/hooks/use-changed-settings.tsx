@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
 import { useControledMihomoConfig } from '@renderer/hooks/use-controled-mihomo-config'
+import { useProfileConfig } from '@renderer/hooks/use-profile-config'
 import {
   TRACKED_SETTINGS,
   TRACKED_BY_ID,
@@ -42,9 +43,17 @@ export function useChangedSettings(): UseChangedSettings {
   const { t } = useTranslation()
   const { appConfig } = useAppConfig()
   const { controledMihomoConfig } = useControledMihomoConfig()
+  const { profileConfig } = useProfileConfig()
+
+  // The changed-settings warning is opt-in per profile: the subscription server
+  // must send X-Clashapp-Unsupported-Cfg-Warn: true (stored as unsupportedCfgWarn).
+  const trackingEnabled = useMemo(() => {
+    const current = profileConfig?.items?.find((item) => item.id === profileConfig?.current)
+    return current?.unsupportedCfgWarn === true
+  }, [profileConfig])
 
   return useMemo(() => {
-    if (!appConfig || !controledMihomoConfig) {
+    if (!trackingEnabled || !appConfig || !controledMihomoConfig) {
       return { count: 0, changed: [], track: (id) => ({ highlight: false, anchorId: `setting-${id}` }) }
     }
 
@@ -76,5 +85,5 @@ export function useChangedSettings(): UseChangedSettings {
     }
 
     return { count: changed.length, changed, track }
-  }, [appConfig, controledMihomoConfig, t])
+  }, [trackingEnabled, appConfig, controledMihomoConfig, t])
 }

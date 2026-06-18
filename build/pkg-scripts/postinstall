@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APP_NAME="Bitumi Clash"
+APP_NAME="ClashApp"
 CORRECT_PATH="/Applications/${APP_NAME}.app"
 WRONG_PATH="/Applications/${APP_NAME}.localized/${APP_NAME}.app"
 

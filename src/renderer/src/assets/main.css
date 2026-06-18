@@ -55,6 +55,7 @@
   --success-foreground: #ffffff;
   --warning: #f59e0b;
   --warning-foreground: #26112f;
+  --info: #3b82f6;
   --sidebar: #fffafc;
   --sidebar-foreground: #2a1620;
   --sidebar-primary: #e6446a;
@@ -108,6 +109,7 @@
   --success-foreground: #ffffff;
   --warning: #fbbf24;
   --warning-foreground: #26112f;
+  --info: #60a5fa;
   --chart-1: #ff6584;
   --chart-2: #6c63ff;
   --chart-3: #ff8da3;
@@ -155,6 +157,7 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
@@ -203,7 +206,7 @@
 }
 
 @layer components {
-  .bitumi-app-shell {
+  .app-shell {
     background:
       linear-gradient(112deg, color-mix(in oklab, var(--gradient-start-power-on) 14%, transparent) 0%, transparent 34%),
       linear-gradient(248deg, color-mix(in oklab, var(--gradient-end-power-on) 10%, transparent) 0%, transparent 42%),
@@ -211,7 +214,7 @@
     isolation: isolate;
   }
 
-  .bitumi-app-shell::before {
+  .app-shell::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -225,7 +228,7 @@
     opacity: 0.24;
   }
 
-  .bitumi-app-shell::after {
+  .app-shell::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -241,11 +244,11 @@
     opacity: 0.36;
   }
 
-  .dark .bitumi-app-shell::before {
+  .dark .app-shell::before {
     opacity: 0.24;
   }
 
-  .dark .bitumi-app-shell::after {
+  .dark .app-shell::after {
     opacity: 0.32;
   }
 

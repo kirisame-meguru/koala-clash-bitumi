@@ -98,7 +98,7 @@ const App: React.FC = () => {
   return (
     <SidebarProvider
       defaultOpen={false}
-      className="bitumi-app-shell relative w-full h-screen overflow-hidden"
+      className="app-shell relative w-full h-screen overflow-hidden"
     >
       {showQuitConfirm && (
         <ConfirmModal

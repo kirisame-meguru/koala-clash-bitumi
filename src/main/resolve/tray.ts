@@ -6,6 +6,7 @@ import {
   patchAppConfig,
   patchControledMihomoConfig
 } from '../config'
+import { productName } from '../../shared/branding'
 import pngIcon from '../../../resources/icon.png?asset'
 import pngIconOff from '../../../resources/icon_off.png?asset'
 import icoIcon from '../../../resources/icon.ico?asset'
@@ -339,7 +340,7 @@ export async function createTray(): Promise<void> {
   if (process.platform === 'win32') {
     tray = new Tray(createWindowsTrayIcon(true))
   }
-  tray?.setToolTip('Bitumi Clash')
+  tray?.setToolTip(productName)
   tray?.setIgnoreDoubleClickEvents(true)
   await updateTrayIcon()
   if (process.platform === 'darwin') {

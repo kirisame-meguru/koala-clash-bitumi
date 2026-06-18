@@ -1,148 +1,125 @@
-# Bitumi
+# ClashApp
 
 <p align="center">
-  <img src="./build/icon.png" alt="Bitumi" width="128" />
+  <img src="./build/icon.png" alt="ClashApp" width="128" />
   <br>
   <br>
-  <a href="https://github.com/kirisame-meguru/koala-clash-bitumi/releases">
-    <img src="https://img.shields.io/github/release/kirisame-meguru/koala-clash-bitumi/all.svg" alt="Releases">
+  <a href="https://github.com/kirisame-meguru/clashapp/releases">
+    <img src="https://img.shields.io/github/release/kirisame-meguru/clashapp/all.svg" alt="Releases">
   </a>
 </p>
 
-<h3 align="center">Bitumi Clash - визуальный форк Koala Clash для <a href="https://github.com/MetaCubeX/mihomo">Mihomo</a></h3>
-<h3 align="center"><a href="https://t.me/Bitumi_ProtectionBot">Bitumi Protection Bot (Vless VPN)</a></h3>
+<h3 align="center">Clash App - a visual fork of Koala Clash for <a href="https://github.com/MetaCubeX/mihomo">Mihomo</a></h3>
+<h3 align="center"><a href="https://t.me/bitumi_bot">➡️ Bitumi Secure Connection (Bot) ⬅️</a></h3>
 
-## Что это
+## About
 
-`Bitumi` - это визуальный форк `Koala Clash`, адаптированный под экосистему Bitumi.
-По функциональности приложение остается совместимым с оригинальной идеей Koala Clash, но интерфейс, брендинг и сценарии использования подстроены под проект Bitumi.
+`ClashApp` is a visual fork of `Koala Clash`, adapted to the Bitumi ecosystem but built around the idea of being easy to fully customize for everyone's needs.
+In terms of functionality, the app stays compatible with the original idea of Koala Clash, but the interface, branding, and usage scenarios have been simplified for everyday users, for general convenience and aesthetics.
 
-Это не попытка "переписать все с нуля", а аккуратный форк с сохранением сильных сторон исходного клиента.
+## Differences from the upstream repository
 
-## Что изменено в форке
+- A compact interface with flexible customization by default;
+- Removed the confirmation dialog when importing a subscription via Deep Link;
+- Simplified the update-check mechanism: updates come directly from the fork's releases;
+- The visuals and user flow have been simplified for general use.
 
-- Компактный интерфейс без лишних режимов и переключений.
-- Импорт подписки по `bitumi://` происходит сразу, без отдельного окна подтверждения.
-- Приложение устанавливается как отдельный продукт `Bitumi Clash`.
-- Проверка обновлений смотрит только в релизы этого форка и предлагает пользователю скачать новую версию.
-- Визуальная часть и пользовательский сценарий упрощены под использование с сервисом Bitumi.
+## Screenshots
 
-## Скриншот
-
-### Оригинальный интерфейс
+### Original interface
 ![Preview](./docs/preview.png)
 
-### Новый интерфейс
-| Светлая тема | Темная тема |
-| :---: | :---: |
-| ![Preview](./docs/light_theme.png) | ![Preview](./docs/dark_theme.png) |
+### New interface
+|             Dark theme            |            Light theme            |
+|:---------------------------------:|:---------------------------------:|
+| ![Preview](./docs/clashapp_1.png) | ![Preview](./docs/clashapp_3.png) |
+| ![Preview](./docs/clashapp_2.png) | ![Preview](./docs/clashapp_4.png) |
 
-## Установка
+## Installation
 
-Для Windows в релизах достаточно двух файлов:
+For Windows:
+- `ClashApp_x64-setup.exe` - regular installer
+- `ClashApp_x64-portable.7z` - portable version
 
-- `Bitumi Clash_x64-setup.exe` - обычный установщик
-- `Bitumi Clash_x64-portable.7z` - портативная версия без установки
+### Option 1. Installer
 
-### Вариант 1. Установщик
+1. Download `ClashApp_x64-setup.exe` from the [Releases](https://github.com/kirisame-meguru/clashapp/releases) page;
+2. Run the installer and complete the installation;
+3. After installation, the app will appear in the Start menu as `ClashApp`.
 
-1. Скачайте `Bitumi Clash_x64-setup.exe` со страницы [Releases](https://github.com/kirisame-meguru/koala-clash-bitumi/releases).
-2. Запустите установщик и завершите стандартную установку.
-3. После установки приложение появится в меню "Пуск" как `Bitumi Clash`.
+### Option 2. Portable
 
-### Вариант 2. Portable
+1. Download `ClashApp_x64-portable.7z`.
+2. Extract the archive into any folder.
+3. Run `ClashApp.exe`.
 
-1. Скачайте `Bitumi Clash_x64-portable.7z`.
-2. Распакуйте архив в любую папку.
-3. Запустите `Bitumi Clash.exe`.
+### If Windows shows a warning
 
-### Если Windows показывает предупреждение
+The build may trigger a `SmartScreen` warning because the app is not signed with a paid code-signing certificate.
+This is typical behavior for small open-source Electron projects and does not by itself mean the app contains a virus.
 
-Сборка может показывать предупреждение `SmartScreen`, потому что приложение не подписано платным сертификатом кода.
-Это типичное поведение для небольших open-source проектов на Electron и само по себе не означает наличие вируса.
+If the file was downloaded from this repository's official releases page, you can click `More info` -> `Run anyway`.
 
-Если файл скачан с официальной страницы релизов этого репозитория, можно нажать `Подробнее` -> `Выполнить в любом случае`.
+## Deeplink for importing a subscription
 
-## Почему проекту можно доверять
-
-Абсолютно "доказать отсутствие вирусов" одной фразой невозможно, но у пользователя есть несколько нормальных способов проверить проект самостоятельно:
-
-- Исходный код открыт и полностью лежит в этом репозитории.
-- Приложение можно собрать локально из исходников и сравнить поведение со скачанным релизом.
-- Проверка обновлений привязана к релизам этого репозитория, поэтому приложение не подтягивает бинарники из оригинального Koala Clash.
-- Состав проекта прозрачен: это Electron-приложение с GUI для Mihomo, без закрытого лаунчера и без скрытой логики обновления.
-- Любой релиз можно дополнительно проверить локальным антивирусом или загрузить на [VirusTotal](https://www.virustotal.com/gui/home/upload).
-
-Для ручной проверки хэша в Windows можно использовать:
-
-```powershell
-Get-FileHash ".\Bitumi Clash_x64-setup.exe" -Algorithm SHA256
-Get-FileHash ".\Bitumi Clash_x64-portable.7z" -Algorithm SHA256
-```
-
-Если вы хотите максимальной прозрачности, лучший вариант - собрать приложение самостоятельно из этого репозитория.
-
-## Deeplink для импорта подписки
-
-Форк поддерживает прямой импорт подписки по схеме:
+The fork supports direct subscription import via the scheme:
 
 ```text
-bitumi://install-config?url=https%3A%2F%2Fexample.com%2Fconnect%2Ftoken&name=Bitumi
+clashapp://install-config?url=https%3A%2F%2Fexample.com%2Fconnect%2Ftoken&name=ClashApp
 ```
 
-Где:
+Where:
+- `url` - the url-encoded subscription link (use `encodeURIComponent('...')` in any browser's DevTools)
+- `name` - an optional profile name
 
-- `url` - закодированная ссылка на подписку
-- `name` - необязательное имя профиля
+## Development
 
-## Разработка
-
-### Требования
+### Requirements
 
 - `Node.js` 20+
-- `pnpm` 10+ или `npm`
+- `pnpm` 10+
 - `Git`
+- the `corepack` npm package (for Node.js 25+)
 
-### Быстрый старт
+I recommend reviewing the contents of `.\build_win.ps1` before running it, since it installs all of the requirements above for you.
 
-```bash
-git clone https://github.com/kirisame-meguru/koala-clash-bitumi.git Bitumi
-cd Bitumi
+### Quick start
+
+```powershell
+git clone https://github.com/kirisame-meguru/clashapp.git
+cd clashapp
 pnpm install
-pnpm dev
+pnpm run dev
 ```
 
-Если удобнее через `npm`, основные команды тоже работают:
+### Build
 
-```bash
-npm install
-npm run dev
+```powershell
+pnpm run typecheck
+pnpm run build:win
+# - OR -
+.\build_win.ps1
 ```
 
-### Сборка
+### Debugging (VSCode)
 
-```bash
-npm run typecheck
-npm run build:win
-```
+* Open the project in VSCode via `File` > `Open Folder` > `path_to_project`;
+* The built files will appear in the `dist/` folder;
+* ~~The detailed procedure for releasing a new version is described in [docs/release-guide.md](./docs/release-guide.md).~~
 
-Готовые файлы сборки появятся в папке `dist/`.
-
-Подробный порядок выпуска новой версии описан в [docs/release-guide.md](./docs/release-guide.md).
-
-## Стек
-
+## Stack
 - `Electron`
 - `React`
 - `TypeScript`
 - `Mihomo`
 
-## Благодарность авторам
+## Acknowledgements
 
-Этот проект появился благодаря работе авторов исходных проектов:
+This project exists thanks to the work of the authors of the original projects:
 
-- [coolcoala/koala-clash](https://github.com/coolcoala/koala-clash) - основа текущего форка
-- [xishang0128/sparkle](https://github.com/xishang0128/sparkle) - проект, на котором изначально базировался Koala Clash
+- [coolcoala/koala-clash](https://github.com/coolcoala/koala-clash) - the basis of this fork
+- [JKmake/koala-clash-guar-styled](https://github.com/coolcoala/koala-clash) - the repository it was originally lifted from, because I liked the design
+- [xishang0128/sparkle](https://github.com/xishang0128/sparkle) - the project Koala Clash was originally based on
 
-Если вам нравится `Bitumi`, пожалуйста, не забывайте и про авторов оригинального софта.
-Без их работы этого форка бы не было.
+If you like `ClashApp`, please don't forget about the authors of the original software too.
+Without their work, this fork would not exist.

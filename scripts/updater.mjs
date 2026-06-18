@@ -4,10 +4,12 @@ import { extractVersionSection } from './changelog.mjs'
 
 const pkg = readFileSync('package.json', 'utf-8')
 const rawChangelog = readFileSync('changelog.md', 'utf-8')
+const branding = JSON.parse(readFileSync('branding.json', 'utf-8'))
 const { version } = JSON.parse(pkg)
-const releaseRepo = process.env.RELEASE_REPO || 'kirisame-meguru/koala-clash-bitumi'
-const productName = 'Bitumi Clash'
-const linuxProductName = 'Bitumi.Clash'
+const releaseRepo = process.env.RELEASE_REPO || branding.updateRepo
+const productName = branding.productName
+// electron-builder sanitizes spaces to dots in linux package artifact names.
+const linuxProductName = branding.productName.replace(/ /g, '.')
 
 let changelog = extractVersionSection(rawChangelog, version)
 const downloadUrl = `https://github.com/${releaseRepo}/releases/download/${version}`

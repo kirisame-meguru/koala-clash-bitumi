@@ -16,17 +16,18 @@ import { spawn } from 'child_process'
 import { createElevateTaskSync, runElevateTaskSync } from './sys/misc'
 import { initProfileUpdater } from './core/profileUpdater'
 import { existsSync, readFileSync, writeFileSync } from 'fs'
-import { exePath, taskDir } from './utils/dirs'
+import { controledMihomoConfigPath, exePath, taskDir } from './utils/dirs'
 import { showFloatingWindow } from './resolve/floatingWindow'
 import { getAppConfigSync } from './config/app'
 import { t } from './utils/i18n'
 import { checkForAppUpdates } from './core/appUpdater'
+import { productName, appId, deepLinkPrefix, deepLinkPattern } from '../shared/branding'
 
 let quitTimeout: NodeJS.Timeout | null = null
 export let mainWindow: BrowserWindow | null = null
 export let needsFirstRunAdmin = false
 
-app.setName('Bitumi Clash')
+app.setName(productName)
 
 const COMPACT_WINDOW = {
   width: 680,
@@ -62,7 +63,7 @@ let isCreatingWindow = false
 let windowShown = false
 let createWindowPromiseResolve: (() => void) | null = null
 let createWindowPromise: Promise<void> | null = null
-const DEEP_LINK_PATTERN = /bitumi:\/\/[^\s"']+/i
+const DEEP_LINK_PATTERN = deepLinkPattern
 
 async function scheduleLightweightMode(): Promise<void> {
   const {
@@ -114,8 +115,12 @@ if (
   }
 }
 
-if (process.platform === 'win32' && is.dev) {
-  patchControledMihomoConfig({ tun: { enable: false } })
+// Dev-only: force TUN off at startup. Skip on a fresh profile where mihomo.yaml
+// doesn't exist yet (init() creates it with tun disabled by default) — otherwise
+// this races config init and rejects with ENOENT. Swallow errors so it can never
+// surface as an unhandled rejection.
+if (process.platform === 'win32' && is.dev && existsSync(controledMihomoConfigPath())) {
+  patchControledMihomoConfig({ tun: { enable: false } }).catch(() => {})
 }
 
 const gotTheLock = app.requestSingleInstanceLock()
@@ -157,7 +162,7 @@ if (syncConfig.disableGPU) {
 function normalizeDeepLink(value: string | undefined): string | undefined {
   if (!value) return undefined
   const trimmed = value.trim().replace(/^["']|["']$/g, '')
-  if (trimmed.toLowerCase().startsWith('bitumi://')) return trimmed
+  if (trimmed.toLowerCase().startsWith(deepLinkPrefix)) return trimmed
   return trimmed.match(DEEP_LINK_PATTERN)?.[0]
 }
 
@@ -336,7 +341,7 @@ powerMonitor.on('shutdown', async () => {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.bitumi.clash')
+  electronApp.setAppUserModelId(appId)
   try {
     await initPromise
   } catch (e) {
@@ -420,7 +425,7 @@ app.whenReady().then(async () => {
 })
 
 async function handleDeepLink(url: string): Promise<void> {
-  if (!url.toLowerCase().startsWith('bitumi://')) return
+  if (!url.toLowerCase().startsWith(deepLinkPrefix)) return
 
   const urlObj = new URL(url)
   const action = (urlObj.host || urlObj.pathname.replace(/^\/+/, '')).toLowerCase()

@@ -48,7 +48,6 @@ const zhCN: LocaleTranslations = {
   },
   menu: {
     about: '关于',
-    aboutApp: '关于 Bitumi',
     hide: '隐藏',
     hideOthers: '隐藏其他',
     showAll: '显示全部',
@@ -199,7 +198,6 @@ const enUS: LocaleTranslations = {
   },
   menu: {
     about: 'About',
-    aboutApp: 'About Bitumi',
     hide: 'Hide',
     hideOthers: 'Hide Others',
     showAll: 'Show All',
@@ -350,7 +348,6 @@ const ruRU: LocaleTranslations = {
   },
   menu: {
     about: 'О программе',
-    aboutApp: 'О Bitumi',
     hide: 'Скрыть',
     hideOthers: 'Скрыть остальные',
     showAll: 'Показать все',

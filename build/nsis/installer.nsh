@@ -1,3 +1,8 @@
+; APP_TASK_NAME / APP_TASK_RUNNER_NAME come from branding.json via
+; electron-builder.config.cjs (generated build/nsis/branding.nsh).
+; PRODUCT_NAME / PRODUCT_FILENAME are provided by electron-builder.
+!include "${BUILD_RESOURCES_DIR}\nsis\branding.nsh"
+
 !macro customInit
   ; --- Optional profile migration from old Koala Clash app ---
 
@@ -21,22 +26,22 @@
 
 !macro customInstall
   ; Remove stale elevated runner tasks from dev/old builds before the app recreates them.
-  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "bitumi-clash" /F'
-  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "bitumi-clash-run" /F'
+  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "${APP_TASK_NAME}" /F'
+  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "${APP_TASK_RUNNER_NAME}" /F'
   ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "koala-clash-run" /F'
 
   ; Register default Windows autostart in a place visible in Task Manager.
   SetShellVarContext current
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Bitumi Clash"
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" "Bitumi Clash"
-  Delete "$SMSTARTUP\Bitumi Clash.lnk"
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder" "Bitumi Clash.lnk"
-  CreateShortCut "$SMSTARTUP\Bitumi Clash.lnk" "$INSTDIR\Bitumi Clash.exe" "" "$INSTDIR\Bitumi Clash.exe" 0
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${PRODUCT_NAME}"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" "${PRODUCT_NAME}"
+  Delete "$SMSTARTUP\${PRODUCT_NAME}.lnk"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder" "${PRODUCT_NAME}.lnk"
+  CreateShortCut "$SMSTARTUP\${PRODUCT_NAME}.lnk" "$INSTDIR\${PRODUCT_FILENAME}.exe" "" "$INSTDIR\${PRODUCT_FILENAME}.exe" 0
 
   ; --- Copy migration file to new app data directory ---
   IfFileExists "$TEMP\koala-clash-migration-profiles.yaml" 0 no_migration_file
-    CreateDirectory "$APPDATA\Bitumi Clash"
-    CopyFiles /SILENT "$TEMP\koala-clash-migration-profiles.yaml" "$APPDATA\Bitumi Clash\.migration-profiles.yaml"
+    CreateDirectory "$APPDATA\${PRODUCT_NAME}"
+    CopyFiles /SILENT "$TEMP\koala-clash-migration-profiles.yaml" "$APPDATA\${PRODUCT_NAME}\.migration-profiles.yaml"
     Delete "$TEMP\koala-clash-migration-profiles.yaml"
   no_migration_file:
   SetShellVarContext all
@@ -45,12 +50,12 @@
 !macro customUnInstall
   ; Clean up elevated runner tasks so future installs cannot launch an old exe path.
   SetShellVarContext current
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "Bitumi Clash"
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" "Bitumi Clash"
-  Delete "$SMSTARTUP\Bitumi Clash.lnk"
-  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder" "Bitumi Clash.lnk"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "${PRODUCT_NAME}"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" "${PRODUCT_NAME}"
+  Delete "$SMSTARTUP\${PRODUCT_NAME}.lnk"
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\StartupFolder" "${PRODUCT_NAME}.lnk"
   SetShellVarContext all
-  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "bitumi-clash" /F'
-  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "bitumi-clash-run" /F'
+  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "${APP_TASK_NAME}" /F'
+  ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "${APP_TASK_RUNNER_NAME}" /F'
   ExecWait '"$SYSDIR\schtasks.exe" /Delete /TN "koala-clash-run" /F'
 !macroend

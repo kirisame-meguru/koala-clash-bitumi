@@ -96,7 +96,7 @@ jobs:
         with:
           name: ${{ matrix.os }}-${{ matrix.arch }}${{ matrix.format && '-' || '' }}${{ matrix.format || '' }}
           path: |
-            dist/Bitumi*
+            dist/ClashApp*
             !dist/*.plist
             !dist/*blockmap*
             latest.yml

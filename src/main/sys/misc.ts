@@ -15,9 +15,10 @@ import {
 } from '../utils/dirs'
 import { copyFileSync, existsSync, writeFileSync } from 'fs'
 import { t } from '../utils/i18n'
+import { packageName, productName } from '../../shared/branding'
 
-const elevateTaskName = 'bitumi-clash-run'
-const elevateTaskRunner = 'bitumi-clash-run.exe'
+const elevateTaskName = `${packageName}-run`
+const elevateTaskRunner = `${packageName}-run.exe`
 const sourceTaskRunner = 'koala-clash-run.exe'
 
 export function getFilePath(ext: string[]): string[] | undefined {
@@ -34,7 +35,7 @@ export async function readTextFile(filePath: string): Promise<string> {
 
 function getUniqueDesktopLogPath(): string {
   const desktop = app.getPath('desktop')
-  const baseName = 'bitumiclash-logs'
+  const baseName = `${packageName}-logs`
   const extension = '.txt'
   let index = 0
   let target = path.join(desktop, `${baseName}${extension}`)
@@ -49,7 +50,7 @@ function getUniqueDesktopLogPath(): string {
 
 export async function exportLogsToDesktop(rendererLogs: ControllerLog[] = []): Promise<string> {
   const sections: string[] = [
-    `Bitumi Clash logs`,
+    `${productName} logs`,
     `Exported: ${new Date().toLocaleString()}`,
     ''
   ]

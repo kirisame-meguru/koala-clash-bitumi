@@ -11,7 +11,7 @@
     coder handles the plain .svg input in-process).
 
     Outputs:
-      src/renderer/src/assets/bitumi-logo.png   512x512 PNG RGBA
+      src/renderer/src/assets/app-logo.png      512x512 PNG RGBA
       build/icon.png                            512x512 PNG RGBA
       resources/icon.png                        512x512 PNG RGBA
       resources/icon_off.png                    512x512 PNG RGBA
@@ -175,7 +175,7 @@ New-Item -ItemType Directory -Force -Path $work | Out-Null
 
 try {
     Write-Host "PNGs:"
-    New-Png -Size 512 -OutPath 'src\renderer\src\assets\bitumi-logo.png'
+    New-Png -Size 512 -OutPath 'src\renderer\src\assets\app-logo.png'
     New-Png -Size 512 -OutPath 'build\icon.png'
     New-Png -Size 512 -OutPath 'resources\icon.png'
     New-Png -Size 512 -OutPath 'resources\icon_off.png'

@@ -6,6 +6,7 @@ import { execSync } from 'child_process'
 import { getAppConfigSync } from '../config/app'
 import { checkCorePermissionSync } from '../core/manager'
 import { t } from './i18n'
+import { packageName } from '../../shared/branding'
 
 export const homeDir = app.getPath('home')
 
@@ -59,16 +60,16 @@ export function themesDir(): string {
 
 export function mihomoIpcPath(): string {
   if (process.platform === 'win32') {
-    return '\\\\.\\pipe\\Bitumi-Clash\\mihomo'
+    return `\\\\.\\pipe\\${packageName}\\mihomo`
   }
   const { core = 'mihomo' } = getAppConfigSync()
   if (core === 'system') {
-    return '/tmp/bitumi-clash-mihomo-external.sock'
+    return `/tmp/${packageName}-mihomo-external.sock`
   }
   if (!checkCorePermissionSync(core as 'mihomo' | 'mihomo-alpha')) {
-    return '/tmp/bitumi-clash-mihomo-api-noperm.sock'
+    return `/tmp/${packageName}-mihomo-api-noperm.sock`
   }
-  return '/tmp/bitumi-clash-mihomo-api.sock'
+  return `/tmp/${packageName}-mihomo-api.sock`
 }
 
 export function serviceIpcPath(): string {

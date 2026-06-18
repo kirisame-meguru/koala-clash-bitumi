@@ -26,7 +26,8 @@ import {
 } from '@renderer/components/ui/sidebar'
 import { useProfileConfig } from '@renderer/hooks/use-profile-config'
 import ConfigViewer from '@renderer/components/sider/config-viewer'
-import bitumiLogo from '@renderer/assets/bitumi-logo.png'
+import appLogo from '@renderer/assets/app-logo.png'
+import { appName } from '@shared/branding'
 
 const navItems = [
   { key: 'main', path: '/home', icon: HomeIcon, i18nKey: 'sider.home' },
@@ -64,13 +65,13 @@ const AppSidebar: React.FC = () => {
       <SidebarHeader>
         <div className="glass-surface flex h-12 items-center gap-2 rounded-md px-2 group-data-[collapsible=icon]:aspect-square group-data-[collapsible=icon]:h-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
           <img
-            src={bitumiLogo}
-            alt="Bitumi"
+            src={appLogo}
+            alt={appName}
             className="aspect-square size-8 shrink-0 rounded-md object-contain shadow-[0_0_18px_rgba(255,101,132,0.35)]"
           />
           <div className="min-w-0 group-data-[collapsible=icon]:hidden">
             <div className="truncate text-sm font-semibold tracking-normal text-sidebar-foreground">
-              Bitumi
+              {appName}
             </div>
           </div>
         </div>

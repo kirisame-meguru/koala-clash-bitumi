@@ -4,6 +4,7 @@ import { getAppConfig } from '../config'
 import { quitWithoutCore } from '../core/manager'
 import { dataDir, logDir, mihomoCoreDir, mihomoWorkDir } from '../utils/dirs'
 import { t } from '../utils/i18n'
+import { appName } from '../../shared/branding'
 
 export async function createApplicationMenu(): Promise<void> {
   if (process.platform !== 'darwin') {
@@ -15,15 +16,15 @@ export async function createApplicationMenu(): Promise<void> {
 
   const template: Electron.MenuItemConstructorOptions[] = [
     {
-      label: 'Bitumi',
+      label: appName,
       submenu: [
         {
-          label: t('menu.about') + ' ' + 'Bitumi',
+          label: t('menu.about') + ' ' + appName,
           role: 'about'
         },
         { type: 'separator' },
         {
-          label: t('menu.hide') + ' ' + 'Bitumi',
+          label: t('menu.hide') + ' ' + appName,
           accelerator: 'Command+H',
           role: 'hide'
         },
@@ -172,13 +173,13 @@ export async function createApplicationMenu(): Promise<void> {
         {
           label: t('menu.learnMore'),
           click: () => {
-            shell.openExternal('https://github.com/kirisame-meguru/koala-clash-bitumi')
+            shell.openExternal('https://github.com/kirisame-meguru/clashapp')
           }
         },
         {
           label: t('menu.reportIssue'),
           click: () => {
-            shell.openExternal('https://github.com/kirisame-meguru/koala-clash-bitumi/issues')
+            shell.openExternal('https://github.com/kirisame-meguru/clashapp/issues')
           }
         },
         { type: 'separator' },
@@ -187,8 +188,8 @@ export async function createApplicationMenu(): Promise<void> {
           click: () => {
             dialog.showMessageBox(mainWindow!, {
               type: 'info',
-              title: t('menu.aboutApp'),
-              message: 'Bitumi',
+              title: t('menu.about') + ' ' + appName,
+              message: appName,
               detail: `${t('menu.version')}：${app.getVersion()}\n${t('menu.electronProxyTool')}`,
               buttons: [t('menu.ok')]
             })

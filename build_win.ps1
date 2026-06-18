@@ -1,15 +1,16 @@
 <#
 .SYNOPSIS
-    Build Bitumi Clash into a Windows NSIS installer locally, mirroring the
+    Build ClashApp into a Windows NSIS installer locally, mirroring the
     GitHub Actions "Build" workflow (.github/workflows/build.yml).
 
 .DESCRIPTION
-    Reproduces the CI steps that produce "Bitumi Clash_<arch>-setup.exe":
+    Reproduces the CI steps that produce "ClashApp_<arch>-setup.exe":
         1. pnpm install (with the auto-prepare lifecycle hook skipped)
         2. pnpm prepare --<arch>   (downloads mihomo cores, geo data, runner, 7za, ...)
         3. pnpm build:win <format> --<arch>
 
-    Output lands in: dist\Bitumi Clash_<arch>-setup.exe   (for the nsis format)
+    Output lands in: dist\ClashApp_<arch>-setup.exe   (for the nsis format)
+    The product name is read from branding.json, so a fork only edits that file.
 
 .PARAMETER Arch
     Target architecture: x64 (default), arm64, or ia32.
@@ -24,15 +25,15 @@
     Skip "pnpm prepare" (use when extra/ binaries are already downloaded).
 
 .EXAMPLE
-    .\build.ps1
+    .\build_win.ps1
     Builds the x64 NSIS installer from scratch.
 
 .EXAMPLE
-    .\build.ps1 -Format 7z
+    .\build_win.ps1 -Format 7z
     Builds the x64 portable 7z archive.
 
 .EXAMPLE
-    .\build.ps1 -SkipInstall -SkipPrepare
+    .\build_win.ps1 -SkipInstall -SkipPrepare
     Rebuilds the installer reusing existing node_modules and extra/ binaries.
 #>
 [CmdletBinding()]
@@ -63,6 +64,11 @@ try {
     # --- Ensure pnpm is available (matches packageManager in package.json) ---
     if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
         Write-Step "pnpm not found - activating via corepack"
+        if (-not (Get-Command corepack -ErrorAction SilentlyContinue)) {
+            Write-Step "corepack not found - installing via npm"
+            npm install -g corepack
+            if ($LASTEXITCODE -ne 0) { throw "npm install -g corepack failed (exit $LASTEXITCODE)" }
+        }
         corepack enable
         corepack prepare pnpm@10.33.0 --activate
     }
@@ -105,9 +111,10 @@ try {
     }
     if ($LASTEXITCODE -ne 0) { throw "build:win failed (exit $LASTEXITCODE)" }
 
-    # --- Report produced artifacts ---
+    # --- Report produced artifacts (productName comes from branding.json) ---
+    $productName = (Get-Content (Join-Path $root 'branding.json') -Raw | ConvertFrom-Json).productName
     Write-Step "Build complete. Artifacts in dist\:"
-    Get-ChildItem -Path (Join-Path $root 'dist') -Filter 'Bitumi*' -ErrorAction SilentlyContinue |
+    Get-ChildItem -Path (Join-Path $root 'dist') -Filter "$productName*" -ErrorAction SilentlyContinue |
         ForEach-Object { Write-Host "    $($_.Name)" -ForegroundColor Green }
 }
 finally {

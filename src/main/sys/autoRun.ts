@@ -4,15 +4,16 @@ import { execFile } from 'child_process'
 import { existsSync } from 'fs'
 import { promisify } from 'util'
 import path from 'path'
+import { packageName, productName } from '../../shared/branding'
 
-const appName = 'bitumi-clash'
-const windowsStartupShortcutName = 'Bitumi Clash.lnk'
+const appSlug = packageName
+const windowsStartupShortcutName = `${productName}.lnk`
 const windowsStartupApprovedShortcutKey =
   'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\StartupFolder'
 const windowsStartupApprovedRunKey =
   'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\StartupApproved\\Run'
 const windowsRunKey = 'HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run'
-const windowsRunValueName = 'Bitumi Clash'
+const windowsRunValueName = productName
 
 function windowsStartupShortcutPath(): string {
   return path.join(
@@ -43,7 +44,7 @@ export async function checkAutoRun(): Promise<boolean> {
   }
 
   if (process.platform === 'linux') {
-    return existsSync(path.join(homeDir, '.config', 'autostart', `${appName}.desktop`))
+    return existsSync(path.join(homeDir, '.config', 'autostart', `${appSlug}.desktop`))
   }
   return false
 }
@@ -91,7 +92,7 @@ export async function enableAutoRun(): Promise<void> {
       shortcutScript
     ])
     try {
-      await execFilePromise('schtasks.exe', ['/delete', '/tn', appName, '/f'])
+      await execFilePromise('schtasks.exe', ['/delete', '/tn', appSlug, '/f'])
     } catch {
       // ignore stale scheduler cleanup failures
     }
@@ -106,24 +107,24 @@ export async function enableAutoRun(): Promise<void> {
   if (process.platform === 'linux') {
     let desktop = `
 [Desktop Entry]
-Name=Bitumi Clash
+Name=${productName}
 Exec=${exePath()} %U
 Terminal=false
 Type=Application
-Icon=bitumi-clash
-StartupWMClass=bitumi-clash
-Comment=Bitumi Clash
+Icon=${appSlug}
+StartupWMClass=${appSlug}
+Comment=${productName}
 Categories=Utility;
 `
 
-    if (existsSync(`/usr/share/applications/${appName}.desktop`)) {
-      desktop = await readFile(`/usr/share/applications/${appName}.desktop`, 'utf8')
+    if (existsSync(`/usr/share/applications/${appSlug}.desktop`)) {
+      desktop = await readFile(`/usr/share/applications/${appSlug}.desktop`, 'utf8')
     }
     const autostartDir = path.join(homeDir, '.config', 'autostart')
     if (!existsSync(autostartDir)) {
       await mkdir(autostartDir, { recursive: true })
     }
-    const desktopFilePath = path.join(autostartDir, `${appName}.desktop`)
+    const desktopFilePath = path.join(autostartDir, `${appSlug}.desktop`)
     await writeFile(desktopFilePath, desktop)
   }
 }
@@ -166,7 +167,7 @@ export async function disableAutoRun(): Promise<void> {
       // ignore missing startup approval values
     }
     try {
-      await execFilePromise('schtasks.exe', ['/delete', '/tn', appName, '/f'])
+      await execFilePromise('schtasks.exe', ['/delete', '/tn', appSlug, '/f'])
     } catch {
       // ignore stale scheduler cleanup failures
     }
@@ -179,7 +180,7 @@ export async function disableAutoRun(): Promise<void> {
     ])
   }
   if (process.platform === 'linux') {
-    const desktopFilePath = path.join(homeDir, '.config', 'autostart', `${appName}.desktop`)
+    const desktopFilePath = path.join(homeDir, '.config', 'autostart', `${appSlug}.desktop`)
     await rm(desktopFilePath)
   }
 }

@@ -1,3 +1,28 @@
+## 0.0.2
+
+Rebrands the app to **ClashApp** and ships two bug fixes.
+
+### Rebrand
+
+- renamed the app from Bitumi Clash to ClashApp, including the `clashapp://` deep-link scheme
+- centralized all branding (name, app id, protocol scheme, update repo) into a single `branding.json` so a fork can re-skin in one place
+- pointed repository and update-check links at `kirisame-meguru/clashapp`
+
+### Behavior
+
+- made settings-change detection opt-in per subscription, gated behind the `X-Clashapp-Unsupported-Cfg-Warn` response header (off by default)
+- disabling the global-mode slider now immediately drops the proxy back to Rule mode
+
+### Fixes
+
+- fixed INFO log entries rendering in pink; restored the blue color
+- fixed a startup crash on a fresh profile caused by the dev-only TUN reset running before the config files were created
+
+### Build & release
+
+- renamed `build.ps1` to `build_win.ps1` and added a corepack bootstrap when it is missing
+- moved electron-builder to a JS config that derives installer and product names from `branding.json`
+
 ## 0.0.1
 
 First release of **Bitumi Clash**, a Windows-focused fork of Koala Clash.

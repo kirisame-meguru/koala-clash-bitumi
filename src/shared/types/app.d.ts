@@ -139,6 +139,8 @@ interface ProfileItem {
   supportUrl?: string
   globalMode?: boolean
   customCss?: string
+  // From X-Clashapp-Unsupported-Cfg-Warn: gate the "changed settings" warning.
+  unsupportedCfgWarn?: boolean
 }
 
 interface SubscriptionUserInfo {

@@ -8,7 +8,12 @@ import { Tabs, TabsList, TabsTrigger } from '@renderer/components/ui/tabs'
 import { useControledMihomoConfig } from '@renderer/hooks/use-controled-mihomo-config'
 import { useAppConfig } from '@renderer/hooks/use-app-config'
 import { useProfileConfig } from '@renderer/hooks/use-profile-config'
-import { triggerSysProxy, updateTrayIcon, mihomoHotReloadConfig } from '@renderer/utils/ipc'
+import {
+  triggerSysProxy,
+  updateTrayIcon,
+  mihomoHotReloadConfig,
+  patchMihomoConfig
+} from '@renderer/utils/ipc'
 import { useChangedSettings } from '@renderer/hooks/use-changed-settings'
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -131,6 +136,14 @@ const ProxySwitches: React.FC = () => {
           disabled={!globalModeAllowed}
           onCheckedChange={async (enable: boolean) => {
             await patchAppConfig({ globalModeToggle: enable })
+            // Disabling the toggle must take effect immediately: if the proxy is
+            // currently in global mode, drop back to rule mode (mirrors the
+            // startup enforcement in main/utils/init.ts).
+            if (!enable && controledMihomoConfig?.mode === 'global') {
+              await patchControledMihomoConfig({ mode: 'rule' })
+              await patchMihomoConfig({ mode: 'rule' })
+              window.electron.ipcRenderer.send('updateTrayMenu')
+            }
           }}
         />
       </SettingItem>

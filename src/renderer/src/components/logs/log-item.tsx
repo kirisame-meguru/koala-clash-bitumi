@@ -4,7 +4,7 @@ import React from 'react'
 const colorMap = {
   error: 'text-destructive',
   warning: 'text-warning',
-  info: 'text-primary',
+  info: 'text-info',
   debug: 'text-muted-foreground'
 }
 const LogItem: React.FC<ControllerLog & { index: number }> = (props) => {
