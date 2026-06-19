@@ -1,3 +1,21 @@
+## 0.0.3
+
+Reworks Windows elevation and restores cross-platform CI builds.
+
+### Behavior
+
+- reworked Windows elevation to use scheduled tasks: on-demand elevation via a silent UAC prompt with an elevated-retry guard, and an elevated logon task for autostart (plain Startup folder only in service mode)
+- the NSIS installer now registers the elevation tasks on install and cleans up legacy entries on uninstall
+- reformatted the update dialog changelog: extracts the matching version section, strips build badges, and shows "Current version: X, new version: Y" with plain-text notes
+- clicking Settings in the nav while already on the Settings page now navigates Home
+- the subscription URL dialog now autofills from the clipboard when it holds a valid http(s) link
+
+### Build & release
+
+- restored the cross-platform build matrix (Windows x64/arm64, Ubuntu x64/arm64, macOS x64/arm64) with per-platform build commands
+- made macOS signing and notarization conditional on the signing secrets being present, so unsigned builds complete cleanly
+- threw on transient version-fetch errors so the CI retry loop can recover instead of exiting
+
 ## 0.0.2
 
 Rebrands the app to **ClashApp** and ships two bug fixes.
