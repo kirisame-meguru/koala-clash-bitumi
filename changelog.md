@@ -1,3 +1,15 @@
+## 0.0.7
+
+Derives the Windows data directory and elevation runner name from branding instead of hardcoded values.
+
+### Fixes
+
+- pinned the per-user data directory to the product name at startup, so it no longer depends on `app.setName` winning a race with the first path lookup — keeping the data folder consistent and matching the NSIS installer's `$APPDATA\<productName>`
+
+### Build & release
+
+- named the bundled elevation task runner from `branding.json` (`<packageName>-run.exe`) in both the prepare download and the runtime copy, dropping the last hardcoded `clashapp-run.exe` reference so a fork ships a correctly branded runner
+
 ## 0.0.6
 
 Fixes the broken elevation task runner after the run-repo move.
