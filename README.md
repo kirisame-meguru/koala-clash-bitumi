@@ -91,13 +91,13 @@ Headers are matched **case-insensitively by suffix** (the app checks `header.toL
 | `global-mode` | boolean | Enables Global outbound mode for the profile. Any value other than `false` (case-insensitive) enables it; `false` disables it. |
 | `announce` | string | Announcement text shown for the profile. Supports a `base64:` prefix; literal `\n` sequences are turned into line breaks. |
 | `custom-css` | string (URL) | URL of a custom CSS theme. Downloaded (through the profile's proxy when enabled) and applied as the profile's theme. |
-| `X-Clashapp-Unsupported-Cfg-Warn` | boolean | Opt this profile in to the "changed settings" warning. Enabled only when the value is exactly `true` (case-insensitive); off by default. |
+| `x-clashapp-unsupported-cfg-warn` | boolean | Opt this profile in to the "changed settings" warning. Enabled only when the value is exactly `true` (case-insensitive); off by default. |
+| `x-clashapp-custom-tray-menu` | boolean | Sets the custom-tray-menu preference **once, when the subscription is first added** — `true` enables it, `false` disables it (any other value is ignored). Never re-applied on refresh, so the user's later choice in Settings → Appearance wins. |
 | `x-hwid-limit` | boolean | When the value is exactly `true`, the response is treated as an HWID device-limit rejection rather than a config (import fails with an HWID-limit message). |
 | `x-hwid-max-devices-reached` | boolean | Same as `x-hwid-limit`; either header set to `true` triggers the HWID-limit error. The accompanying `support-url` is shown in that message. |
 
 Notes:
-- `X-Clashapp-Unsupported-Cfg-Warn` is the only header that is specific to this fork; the rest follow the conventions used by other Clash / Mihomo clients.
-- Boolean headers are compared as plain strings. `global-mode` and `X-Clashapp-Unsupported-Cfg-Warn` are lower-cased before comparison, while the two `x-hwid-*` headers require the exact string `true`.
+- Boolean headers are compared as plain strings. `global-mode` and `x-clashapp-unsupported-cfg-warn` are lower-cased before comparison, while the two `x-hwid-*` headers require the exact string `true`.
 
 ## Development
 

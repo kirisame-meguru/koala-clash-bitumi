@@ -567,6 +567,7 @@ export default {
       showFloatingWindowHelp: '未禁用GPU加速的情况下，悬浮窗可能会导致应用崩溃',
       rotateFloatingIcon: '根据网速旋转悬浮窗图标',
       disableTrayIcon: '禁用托盘图标',
+      enableCustomTrayMenu: '启用自定义托盘菜单',
       trayShowNodeInfo: '托盘菜单显示节点信息',
       showDockIcon: '显示 Dock 图标',
       alwaysOnTop: '窗口置顶',

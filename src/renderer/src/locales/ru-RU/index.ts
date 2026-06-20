@@ -502,6 +502,7 @@ export default {
       showFloatingWindowHelp: 'Плавающее окно может вызывать сбои при включённом ускорении GPU',
       rotateFloatingIcon: 'Вращать иконку плавающего окна в зависимости от скорости сети',
       disableTrayIcon: 'Скрыть иконку в трее',
+      enableCustomTrayMenu: 'Включить пользовательское меню в трее',
       trayShowNodeInfo: 'Показать информацию об узле в меню трея',
       showDockIcon: 'Показать иконку в Dock',
       alwaysOnTop: 'Поверх всех окон',

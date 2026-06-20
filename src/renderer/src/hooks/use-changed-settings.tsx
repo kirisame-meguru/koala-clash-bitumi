@@ -46,7 +46,7 @@ export function useChangedSettings(): UseChangedSettings {
   const { profileConfig } = useProfileConfig()
 
   // The changed-settings warning is opt-in per profile: the subscription server
-  // must send X-Clashapp-Unsupported-Cfg-Warn: true (stored as unsupportedCfgWarn).
+  // must send x-clashapp-unsupported-cfg-warn: true (stored as unsupportedCfgWarn).
   const trackingEnabled = useMemo(() => {
     const current = profileConfig?.items?.find((item) => item.id === profileConfig?.current)
     return current?.unsupportedCfgWarn === true

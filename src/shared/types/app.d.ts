@@ -141,7 +141,9 @@ interface ProfileItem {
   supportUrl?: string
   globalMode?: boolean
   customCss?: string
-  // From X-Clashapp-Unsupported-Cfg-Warn: gate the "changed settings" warning.
+  // From x-clashapp-custom-tray-menu: tri-state preference applied once at add.
+  customTrayMenu?: boolean
+  // From x-clashapp-unsupported-cfg-warn: gate the "changed settings" warning.
   unsupportedCfgWarn?: boolean
 }
 

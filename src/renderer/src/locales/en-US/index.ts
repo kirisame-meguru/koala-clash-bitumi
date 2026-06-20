@@ -503,6 +503,7 @@ export default {
         'Floating window may cause app crash when GPU acceleration is not disabled',
       rotateFloatingIcon: 'Rotate floating icon based on network speed',
       disableTrayIcon: 'Disable tray icon',
+      enableCustomTrayMenu: 'Enable custom tray menu',
       trayShowNodeInfo: 'Show node info in tray menu',
       showDockIcon: 'Show Dock icon',
       alwaysOnTop: 'Always on top',

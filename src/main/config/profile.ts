@@ -102,6 +102,12 @@ export async function addProfileItem(item: Partial<ProfileItem>): Promise<boolea
     await patchAppConfig({ customTheme: newItem.customCss || 'default.css' })
     mainWindow?.webContents.send('appConfigUpdated')
   }
+
+  // Honor x-clashapp-custom-tray-menu only on first add, never on refresh.
+  if (!isExisting && newItem.customTrayMenu !== undefined) {
+    await patchAppConfig({ useCustomTrayMenu: newItem.customTrayMenu })
+    mainWindow?.webContents.send('appConfigUpdated')
+  }
   return changed
 }
 
@@ -324,7 +330,7 @@ export async function createProfile(
       if (globalModeKey) {
         newItem.globalMode = headers[globalModeKey].toLowerCase() !== 'false'
       }
-      // Fixed server-contract header (X-Clashapp-Unsupported-Cfg-Warn): opt in to
+      // Fixed server-contract header (x-clashapp-unsupported-cfg-warn): opt in to
       // surfacing the "changed settings" warning for this profile.
       const unsupportedCfgWarnKey = Object.keys(headers).find((k) =>
         k.toLowerCase().endsWith('unsupported-cfg-warn')
@@ -357,6 +363,17 @@ export async function createProfile(
         } catch {
           // ignore css download failure
         }
+      }
+      // x-clashapp-custom-tray-menu: enable/disable the custom tray menu. Applied
+      // ONLY when the subscription is first added (see addProfileItem), never on
+      // refresh — so the user's later choice in Appearance settings is preserved.
+      const customTrayMenuKey = Object.keys(headers).find((k) =>
+        k.toLowerCase().endsWith('custom-tray-menu')
+      )
+      if (customTrayMenuKey) {
+        const value = headers[customTrayMenuKey].toLowerCase()
+        if (value === 'true') newItem.customTrayMenu = true
+        else if (value === 'false') newItem.customTrayMenu = false
       }
       if (newItem.verify) {
         emitProgress('verifyingSubscription')

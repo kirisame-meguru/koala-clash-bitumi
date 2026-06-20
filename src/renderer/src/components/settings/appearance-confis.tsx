@@ -57,7 +57,8 @@ const AppearanceConfig: React.FC<AppearanceConfigProps> = (props) => {
     spinFloatingIcon = true,
     useWindowFrame = false,
     customTheme = 'default.css',
-    appTheme = 'system'
+    appTheme = 'system',
+    useCustomTrayMenu = false
   } = appConfig || {}
   const [localShowFloating, setLocalShowFloating] = useState(showFloating)
   const [onTop, setOnTop] = useState(false)
@@ -153,6 +154,14 @@ const AppearanceConfig: React.FC<AppearanceConfigProps> = (props) => {
               } else {
                 showTrayIcon()
               }
+            }}
+          />
+        </SettingItem>
+        <SettingItem title={t('settings.appearance.enableCustomTrayMenu')} divider>
+          <Switch
+            checked={useCustomTrayMenu}
+            onCheckedChange={async (value) => {
+              await patchAppConfig({ useCustomTrayMenu: value })
             }}
           />
         </SettingItem>
