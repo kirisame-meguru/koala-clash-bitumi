@@ -34,6 +34,12 @@ export let mainWindow: BrowserWindow | null = null
 export let needsFirstRunAdmin = false
 
 app.setName(productName)
+// Pin the on-disk data directory to productName before anything resolves
+// app.getPath('userData'). Electron derives its default from package.json "name", which
+// can differ from productName (and from a fork's rename), so a userData lookup that ran
+// ahead of app.setName above would cache the wrong folder. Making it explicit also keeps
+// the data dir in lockstep with the NSIS installer, which migrates into $APPDATA\<productName>.
+app.setPath('userData', path.join(app.getPath('appData'), productName))
 
 const COMPACT_WINDOW = {
   width: 680,

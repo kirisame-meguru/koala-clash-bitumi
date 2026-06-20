@@ -8,6 +8,7 @@ import { execSync } from 'child_process'
 
 const cwd = process.cwd()
 const TEMP_DIR = path.join(cwd, 'node_modules/.temp')
+const branding = JSON.parse(fs.readFileSync(path.join(cwd, 'branding.json'), 'utf8'))
 let arch = process.arch
 const platform = process.platform
 if (process.argv.slice(2).length !== 0) {
@@ -311,7 +312,11 @@ const resolveSparkleService = () => {
 }
 const resolveRunner = () =>
   resolveResource({
-    file: 'clashapp-run.exe',
+    // Bundle the runner under the branded filename (<packageName>-run.exe) so it matches
+    // the name the app copies it to at elevation time, and so a fork ships a branded
+    // runner. The release asset is named clashapp-run.exe regardless — only the local
+    // filename follows branding.json.
+    file: `${branding.packageName}-run.exe`,
     downloadURL: `https://github.com/kirisame-meguru/clashapp-run/releases/download/${arch}/clashapp-run.exe`
   })
 

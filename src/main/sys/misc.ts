@@ -18,8 +18,9 @@ import { t } from '../utils/i18n'
 import { packageName, productName } from '../../shared/branding'
 
 const elevateTaskName = `${packageName}-run`
+// The runner is bundled into resources/files under this same branded name (see the
+// prepare script) and copied into the per-user tasks dir on first elevation.
 const elevateTaskRunner = `${packageName}-run.exe`
-const sourceTaskRunner = 'clashapp-run.exe'
 const logonTaskName = `${packageName}-logon`
 
 // Append a timestamped line to a durable elevation diagnostics log. Never throws —
@@ -177,7 +178,7 @@ export function createElevateTaskSync(): void {
   const taskFilePath = path.join(taskDir(), `${elevateTaskName}.xml`)
   writeFileSync(taskFilePath, Buffer.from(`\ufeff${elevateTaskXml}`, 'utf-16le'))
   copyFileSync(
-    path.join(resourcesFilesDir(), sourceTaskRunner),
+    path.join(resourcesFilesDir(), elevateTaskRunner),
     path.join(taskDir(), elevateTaskRunner)
   )
   execSync(
