@@ -1,3 +1,17 @@
+## 0.0.8
+
+Centralizes the remaining hardcoded brand strings so a fork only edits `branding.json`.
+
+### Behavior
+
+- pointed the macOS Help menu's "Learn More" and "Report Issue" items at a `repoUrl` derived from `branding.json` instead of the hardcoded `kirisame-meguru/clashapp` GitHub links
+
+### Build & release
+
+- added a `brandWindowTitle` Vite plugin that replaces the `%RENDERER_TITLE%` placeholder in the renderer HTML entries (main, floating, tray menu) with the branded title at build/serve time, removing the last hardcoded window titles without a runtime flash
+- templated the Linux/macOS install scripts (`postinst`, pkg `preinstall`/`postinstall`) with an `@@APP_NAME@@` placeholder, rendering them into the gitignored `build/generated/` at build time and repointing the deb/rpm/pacman `afterInstall` and pkg `scripts` at the rendered copies, so the baked-in app name follows `productName`
+- made the release artifact glob brand-agnostic (`dist/*.{exe,7z,deb,rpm,pkg}` and `dist/*.pkg.tar.xz` instead of `dist/ClashApp*`)
+
 ## 0.0.7
 
 Derives the Windows data directory and elevation runner name from branding instead of hardcoded values.
