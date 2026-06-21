@@ -78,4 +78,4 @@ These rules are load-bearing — follow them:
 - [docs/branching-workflow.md](docs/branching-workflow.md) — the `main` / `dev` / `feat` / `fix` branch model and the commit → push → PR flow.
 - [docs/commit-messages.md](docs/commit-messages.md) — the conventional `type(scope): summary` commit format and style to follow.
 - [docs/forking-and-rebranding.md](docs/forking-and-rebranding.md) — fork & re-skin the app by editing `branding.json` and regenerating icons from one SVG.
-- [docs/upstream-sync/README.md](docs/upstream-sync/README.md) — how a downstream fork keeps its `main` synced with this upstream via the overlay workflow.
+- [docs/upstream-sync/README.md](docs/upstream-sync/README.md) — how a downstream fork keeps its `main` synced with this upstream via the overlay workflow. **When the git user is `kirisame-meguru`, any change under `docs/upstream-sync/*` must also be mirrored to the live fork at `../bitumi-clash` (`bitumi-labs/bitumi-clash`)**, where those files actually run.

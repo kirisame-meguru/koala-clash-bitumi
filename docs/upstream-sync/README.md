@@ -2,6 +2,12 @@
 
 This is how the downstream `bitumi-labs/bitumi-clash` fork tracks this repo (`kirisame-meguru/clashapp`) automatically — without merge conflicts or GitHub's "N commits behind" drift. The files in this folder are copyable templates; adapt them in your fork.
 
+> **Keep these templates in sync with the live fork (maintainer only).** The files under `docs/upstream-sync/*` are reference copies — the versions that actually run live in the downstream fork. **When the git user is the maintainer (`kirisame-meguru`)**, any change to one of them must be mirrored to **both**:
+> 1. `docs/upstream-sync/` here, and
+> 2. **`bitumi-labs/bitumi-clash`** (locally `../bitumi-clash`) — where they run as `.github/workflows/sync-upstream.yml`, `tools/apply-overlay.sh`, `package.partial.json`, and `.gitattributes`.
+>
+> The two must not drift: the copy here is documentation, the fork's copy is what executes. Other contributors change only the copy here — mirroring to the fork is the maintainer's job, since it needs access to `bitumi-labs/bitumi-clash`.
+
 ## The idea: rebuild `main` as "upstream tip + overlay"
 
 A fork's only real differences are its **identity** (branding, icons, README, package fields). Instead of merging upstream into a diverged `main`, the fork keeps `main` disposable and **rebuilds** it on a schedule:
