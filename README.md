@@ -94,6 +94,7 @@ Headers are matched **case-insensitively by suffix** (the app checks `header.toL
 | `custom-css` | string (URL) | URL of a custom CSS theme. Downloaded (through the profile's proxy when enabled) and applied as the profile's theme. |
 | `x-clashapp-unsupported-cfg-warn` | boolean | Opt this profile in to the "changed settings" warning. Enabled only when the value is exactly `true` (case-insensitive); off by default. |
 | `x-clashapp-custom-tray-menu` | boolean | Sets the custom-tray-menu preference **once, when the subscription is first added** — `true` enables it, `false` disables it (any other value is ignored). Never re-applied on refresh, so the user's later choice in Settings → Appearance wins. |
+| `x-clashapp-show-usage-stats` | boolean | Sets the "Show traffic usage stats" preference **once, when the subscription is first added** — `true` enables it, `false` disables it (any other value is ignored). Never re-applied on refresh, so the user's later choice in Settings wins. |
 | `x-hwid-limit` | boolean | When the value is exactly `true`, the response is treated as an HWID device-limit rejection rather than a config (import fails with an HWID-limit message). |
 | `x-hwid-max-devices-reached` | boolean | Same as `x-hwid-limit`; either header set to `true` triggers the HWID-limit error. The accompanying `support-url` is shown in that message. |
 

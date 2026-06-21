@@ -25,7 +25,8 @@ import {
   PowerIcon,
   PauseIcon,
   RefreshCcw,
-  TriangleAlert
+  TriangleAlert,
+  Globe
 } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import EditInfoModal from '@renderer/components/profiles/edit-info-modal'
@@ -482,10 +483,11 @@ const Home: React.FC = () => {
                 >
                   <span
                     onClick={() => !modeLoading && onToggleFull(!isGlobal)}
-                    className={`text-xs font-semibold tracking-wider text-foreground select-none ${
+                    className={`flex items-center gap-1.5 text-xs font-semibold tracking-wider text-foreground select-none ${
                       modeLoading ? 'opacity-60' : 'cursor-pointer'
                     }`}
                   >
+                    <Globe className="size-3.5" />
                     {t('pages.home.fullMode')}
                   </span>
                   {currentProfile?.globalModeWarn === true && (

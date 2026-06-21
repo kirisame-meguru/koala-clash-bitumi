@@ -541,7 +541,7 @@ export default {
       mainSwitchTun: 'Режим TUN',
       mainSwitchSysproxy: 'Режим прокси',
       mainSwitchProxyMode: 'Режим прокси',
-      globalMode: 'Включить переключатель глобального режима',
+      globalMode: 'Включить <icon/> переключатель глобального режима',
       takeOverDNS: 'Управлять настройками DNS',
       takeOverSniffer: 'Управлять настройками определения доменов',
       stopCoreOnDisconnect: 'Останавливать ядро при потере сети',

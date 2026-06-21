@@ -108,6 +108,11 @@ export async function addProfileItem(item: Partial<ProfileItem>): Promise<boolea
     await patchAppConfig({ useCustomTrayMenu: newItem.customTrayMenu })
     mainWindow?.webContents.send('appConfigUpdated')
   }
+  // Honor x-clashapp-show-usage-stats only on first add, never on refresh.
+  if (!isExisting && newItem.showUsageStats !== undefined) {
+    await patchAppConfig({ showTrafficUsage: newItem.showUsageStats })
+    mainWindow?.webContents.send('appConfigUpdated')
+  }
   return changed
 }
 
@@ -382,6 +387,17 @@ export async function createProfile(
         const value = headers[customTrayMenuKey].toLowerCase()
         if (value === 'true') newItem.customTrayMenu = true
         else if (value === 'false') newItem.customTrayMenu = false
+      }
+      // x-clashapp-show-usage-stats: enable/disable the "Show traffic usage
+      // stats" slider. Applied ONLY when the subscription is first added (see
+      // addProfileItem), never on refresh — so the user's later choice wins.
+      const showUsageStatsKey = Object.keys(headers).find((k) =>
+        k.toLowerCase().endsWith('show-usage-stats')
+      )
+      if (showUsageStatsKey) {
+        const value = headers[showUsageStatsKey].toLowerCase()
+        if (value === 'true') newItem.showUsageStats = true
+        else if (value === 'false') newItem.showUsageStats = false
       }
       if (newItem.verify) {
         emitProgress('verifyingSubscription')

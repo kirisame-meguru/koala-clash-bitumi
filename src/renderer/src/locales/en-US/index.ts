@@ -542,7 +542,7 @@ export default {
       mainSwitchTun: 'TUN Mode',
       mainSwitchSysproxy: 'Proxy Mode',
       mainSwitchProxyMode: 'Proxy Mode',
-      globalMode: 'Enable Global Mode slider',
+      globalMode: 'Enable <icon/> Global Mode slider',
       takeOverDNS: 'Take over DNS settings',
       takeOverSniffer: 'Take over domain sniffing settings',
       stopCoreOnDisconnect: 'Stop core on disconnect',

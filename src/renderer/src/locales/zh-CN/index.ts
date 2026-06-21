@@ -605,7 +605,7 @@ export default {
       mainSwitchTun: 'TUN 模式',
       mainSwitchSysproxy: '代理模式',
       mainSwitchProxyMode: '代理模式',
-      globalMode: '启用全局模式滑块',
+      globalMode: '启用 <icon/> 全局模式滑块',
       takeOverDNS: '接管 DNS 设置',
       takeOverSniffer: '接管域名嗅探设置',
       stopCoreOnDisconnect: '断网时停止内核',

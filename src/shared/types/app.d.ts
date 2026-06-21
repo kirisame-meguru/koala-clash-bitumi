@@ -145,6 +145,8 @@ interface ProfileItem {
   customCss?: string
   // From x-clashapp-custom-tray-menu: tri-state preference applied once at add.
   customTrayMenu?: boolean
+  // From x-clashapp-show-usage-stats: tri-state preference applied once at add.
+  showUsageStats?: boolean
   // From x-clashapp-unsupported-cfg-warn: gate the "changed settings" warning.
   unsupportedCfgWarn?: boolean
 }
