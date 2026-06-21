@@ -1,3 +1,56 @@
+## 1.0.6
+
+Maintenance release — no functional changes since 1.0.5 (version bump to re-trigger the release build).
+
+## 1.0.5
+
+Adds a usage-stats header and a Global-mode icon, and removes the startup theme flash.
+
+### Behavior
+
+- added the `x-clashapp-show-usage-stats` response header, which sets the "Show traffic usage stats" preference once when a subscription is first added
+- added a Globe icon for Global Mode
+
+### Fixes
+
+- injected the resolved theme before the window is shown, removing the brief default-skin flash on startup
+
+## 1.0.4
+
+Fixes the elevated task on first launch.
+
+### Fixes
+
+- built the elevate task XML lazily so it resolves the `userData` path after `setPath` instead of capturing it too early
+
+## 1.0.3
+
+Makes the Global-mode warning icon opt-in per subscription.
+
+### Behavior
+
+- gated the warning icon next to the Global-mode slider behind the `x-clashapp-global-mode-warn` response header (off by default; shown only when the header is exactly `true`)
+
+## 1.0.2
+
+Maintenance release.
+
+### Build & release
+
+- bumped `actions/checkout` to v5 in CI
+
+## 1.0.1
+
+Fixes default-theme injection and the release artifact upload.
+
+### Fixes
+
+- wrapped the bundled default palette in `@layer base` so a brand-overlay theme injects in the correct cascade order
+
+### Build & release
+
+- listed the release artifact upload globs individually instead of a brace set, so every platform artifact uploads reliably
+
 ## 1.0.0
 
 Extends the custom theme / `custom-css` system to the custom tray menu.
@@ -40,6 +93,16 @@ Fixes the broken elevation task runner after the run-repo move.
 
 - fixed the bundled elevation task runner shipping as a 9-byte "Not Found" stub: the build requested `koala-clash-run.exe` from `kirisame-meguru/clashapp-run`, but the rebranded release asset is named `clashapp-run.exe`, so GitHub returned a 404 body that was written to disk as the executable
 - made the prepare download step fail on a non-2xx response instead of silently saving the error body as the asset
+
+## 0.0.4
+
+Automates releases and adds nightly builds.
+
+> Please try out the Linux / macOS / Windows ARM64 builds — those have not been tested!
+
+### Build & release
+
+- added automatic releases on a version bump and scheduled nightly builds from the dev branch
 
 ## 0.0.3
 
