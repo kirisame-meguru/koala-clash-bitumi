@@ -63,6 +63,10 @@ module.exports = {
     '!{.env,.env.*,.npmrc,pnpm-lock.yaml}',
     '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
   ],
+  // better-sqlite3 ships a native .node binary that can't be dlopen'd from inside
+  // app.asar. electron-builder's smartUnpack usually catches native modules, but
+  // this explicit entry is an idempotent safety net (no other asarUnpack exists).
+  asarUnpack: ['**/node_modules/better-sqlite3/**'],
   extraResources: [
     {
       from: './extra/',
