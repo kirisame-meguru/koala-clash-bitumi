@@ -31,6 +31,7 @@ import {
   AlertDialogTitle
 } from '@renderer/components/ui/alert-dialog'
 import {
+  CalendarClock,
   Clock,
   EllipsisVertical,
   ExternalLink,
@@ -40,6 +41,7 @@ import {
   InfinityIcon,
   ListTree,
   Pencil,
+  PieChart,
   RefreshCcw,
   Trash2
 } from 'lucide-react'
@@ -377,16 +379,18 @@ const ProfileItem: React.FC<Props> = (props) => {
 
           {/* Stats: traffic remaining | days remaining */}
           <div className="grid grid-cols-2 mt-2">
-            <div className="pr-3 border-r border-foreground/10 justify-items-center">
-              <div className="text-[11px] text-muted-foreground">
+            <div className="pr-3 border-r border-foreground/10 justify-items-center text-center">
+              <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                <PieChart className="size-3 shrink-0" />
                 {t('profile.trafficRemaining')}
               </div>
               <div className="text-sm font-bold mt-0.5 leading-tight">
                 {hasLimit ? trafficRemaining : <InfinityIcon className="size-5" />}
               </div>
             </div>
-            <div className="pl-3 justify-items-center">
-              <div className="text-[11px] text-muted-foreground">
+            <div className="pl-3 justify-items-center text-center">
+              <div className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                <CalendarClock className="size-3 shrink-0" />
                 {t('profile.daysRemaining')}
               </div>
               <div className="text-sm font-bold mt-0.5 leading-tight">

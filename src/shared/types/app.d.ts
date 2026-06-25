@@ -80,6 +80,10 @@ interface AppConfig {
   globalModeToggle?: boolean
   /** show the subscription traffic usage stats panel on the Home screen */
   showTrafficUsage?: boolean
+  /** show the remaining-traffic and expiry columns within the stats panel */
+  showTrafficLeftExpires?: boolean
+  /** hide the remaining-traffic and expiry columns when both are unlimited */
+  hideTrafficLeftExpiresWhenUnlimited?: boolean
   maxLogDays: number
   userAgent?: string
   delayTestConcurrency?: number

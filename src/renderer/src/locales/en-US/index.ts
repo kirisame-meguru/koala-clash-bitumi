@@ -476,7 +476,7 @@ export default {
   settings: {
     tabs: {
       title: 'Tabs',
-      seeMore: 'See more',
+      moreTabs: 'More tabs',
       enableConnections: 'Enable <icon/> Connections tab',
       enableRules: 'Enable <icon/> Rules tab',
       enableLogs: 'Enable <icon/> Logs tab',
@@ -484,7 +484,9 @@ export default {
       enableProxies: 'Enable <icon/> Proxy Groups tab'
     },
     subscription: {
-      showTrafficUsage: 'Show traffic usage stats',
+      showTrafficUsage: 'Show <usage/> Traffic Usage',
+      showTrafficLeftExpires: 'Show <remaining/> Remaining Traffic and <expiry/> Expiry Date',
+      hideTrafficLeftExpiresUnlimited: 'Hide when unlimited',
       subscriptionUrl: 'Subscription URL:',
       apply: 'Apply'
     },

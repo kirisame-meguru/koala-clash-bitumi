@@ -28,7 +28,9 @@ import {
   PauseIcon,
   RefreshCcw,
   TriangleAlert,
-  Globe
+  Globe,
+  PieChart,
+  CalendarClock
 } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@renderer/components/ui/tooltip'
 import EditInfoModal from '@renderer/components/profiles/edit-info-modal'
@@ -59,7 +61,9 @@ const Home: React.FC = () => {
     onlyActiveDevice = false,
     autoCloseConnection = true,
     globalModeToggle = false,
-    showTrafficUsage = true
+    showTrafficUsage = true,
+    showTrafficLeftExpires = true,
+    hideTrafficLeftExpiresWhenUnlimited = true
   } = appConfig || {}
   const { enable: writeSysProxy = true, mode: sysProxyMode } = sysProxy || {}
   const { controledMihomoConfig, patchControledMihomoConfig } = useControledMihomoConfig()
@@ -147,7 +151,18 @@ const Home: React.FC = () => {
   const trafficTotal = subscription?.total ?? 0
   const trafficRemaining = trafficTotal > 0 ? trafficTotal - trafficUsed : 0
   const expireTimestamp = subscription?.expire ?? 0
-  const expireDate = expireTimestamp > 0 ? dayjs.unix(expireTimestamp).format('L') : t('pages.home.never')
+  const expireDate =
+    expireTimestamp > 0 ? dayjs.unix(expireTimestamp).format('L') : t('pages.home.never')
+
+  // The remaining-traffic and expiry columns are shown when the master stats
+  // toggle and their own toggle are on, unless both values are unlimited and the
+  // user opted to hide them in that case.
+  const trafficLeftExpiresUnlimited = trafficTotal <= 0 && expireTimestamp <= 0
+  const showTrafficStats =
+    !!subscription &&
+    showTrafficUsage &&
+    showTrafficLeftExpires &&
+    !(hideTrafficLeftExpiresWhenUnlimited && trafficLeftExpiresUnlimited)
 
   const firstGroup = groups?.[0]
   const supportUrl = currentProfile?.supportUrl
@@ -364,15 +379,21 @@ const Home: React.FC = () => {
                   {currentProfile.announce}
                 </div>
               )}
-              {subscription && showTrafficUsage && (
+              {subscription && (
                 <div className="mt-3 border-t border-stroke/65 pt-3">
                   <div className="grid grid-cols-3 gap-3">
-                    <div className="flex flex-col items-center gap-1 text-center">
-                      <span className="text-xs text-muted-foreground">
+                    <div
+                      aria-hidden={!showTrafficStats}
+                      className={`flex flex-col items-center gap-1 text-center ${showTrafficStats ? '' : 'invisible'}`}
+                    >
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <PieChart className="size-3.5 shrink-0" />
                         {t('pages.home.trafficRemaining')}
                       </span>
                       <span className="text-base font-semibold text-foreground">
-                        {trafficTotal > 0 ? formatBytes(trafficRemaining) : t('pages.home.unlimited')}
+                        {trafficTotal > 0
+                          ? formatBytes(trafficRemaining)
+                          : t('pages.home.unlimited')}
                       </span>
                     </div>
                     <div className="flex flex-col items-center justify-end text-center">
@@ -383,8 +404,14 @@ const Home: React.FC = () => {
                         className="h-6 leading-none text-base text-foreground font-semibold"
                       />
                     </div>
-                    <div className="flex flex-col items-center gap-1 text-center">
-                      <span className="text-xs text-muted-foreground">{t('pages.home.expires')}</span>
+                    <div
+                      aria-hidden={!showTrafficStats}
+                      className={`flex flex-col items-center gap-1 text-center ${showTrafficStats ? '' : 'invisible'}`}
+                    >
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <CalendarClock className="size-3.5 shrink-0" />
+                        {t('pages.home.expires')}
+                      </span>
                       <span className="text-base font-semibold text-foreground">{expireDate}</span>
                     </div>
                   </div>
@@ -394,7 +421,7 @@ const Home: React.FC = () => {
           )}
 
           <div className="flex min-h-0 flex-col items-center justify-start py-3">
-            {(!subscription || !showTrafficUsage) && (
+            {!subscription && (
               <div className="mb-3 flex h-6 items-center justify-center">
                 <CharacterMorph
                   texts={[status]}

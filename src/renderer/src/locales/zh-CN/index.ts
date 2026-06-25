@@ -542,7 +542,7 @@ export default {
   settings: {
     tabs: {
       title: '标签页',
-      seeMore: '查看更多',
+      moreTabs: '更多标签页',
       enableConnections: '启用 <icon/> 连接标签',
       enableRules: '启用 <icon/> 规则标签',
       enableLogs: '启用 <icon/> 日志标签',
@@ -550,7 +550,9 @@ export default {
       enableProxies: '启用 <icon/> 代理组标签'
     },
     subscription: {
-      showTrafficUsage: '显示流量使用统计',
+      showTrafficUsage: '显示 <usage/> 流量使用',
+      showTrafficLeftExpires: '显示 <remaining/> 剩余流量和 <expiry/> 到期时间',
+      hideTrafficLeftExpiresUnlimited: '无限制时隐藏',
       subscriptionUrl: '订阅链接：',
       apply: '应用'
     },

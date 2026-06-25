@@ -476,7 +476,7 @@ export default {
   settings: {
     tabs: {
       title: 'Вкладки',
-      seeMore: 'Ещё',
+      moreTabs: 'Ещё вкладки',
       enableConnections: 'Включить вкладку <icon/> «Соединения»',
       enableRules: 'Включить вкладку <icon/> «Правила»',
       enableLogs: 'Включить вкладку <icon/> «Журналы»',
@@ -484,7 +484,9 @@ export default {
       enableProxies: 'Включить вкладку <icon/> «Группы прокси»'
     },
     subscription: {
-      showTrafficUsage: 'Показывать статистику трафика',
+      showTrafficUsage: 'Показывать <usage/> использование трафика',
+      showTrafficLeftExpires: 'Показывать <remaining/> остаток трафика и <expiry/> срок действия',
+      hideTrafficLeftExpiresUnlimited: 'Скрывать при безлимите',
       subscriptionUrl: 'URL подписки:',
       apply: 'Применить'
     },

@@ -13,11 +13,21 @@ interface Props {
   defaultHint?: React.ReactNode
   /** DOM id for deep-link scroll targeting (e.g. "setting-<id>") */
   anchorId?: string
+  /** nesting depth for sub-settings; renders a tree connector + indent */
+  indent?: number
 }
 
 const SettingItem: React.FC<Props> = (props) => {
-  const { title, actions, children, divider = false, highlight = false, defaultHint, anchorId } =
-    props
+  const {
+    title,
+    actions,
+    children,
+    divider = false,
+    highlight = false,
+    defaultHint,
+    anchorId,
+    indent = 0
+  } = props
   const showHint = highlight && defaultHint
 
   return (
@@ -30,8 +40,17 @@ const SettingItem: React.FC<Props> = (props) => {
           highlight ? 'border-l-2 border-yellow-500/80 pl-3 -ml-3' : ''
         }`}
       >
-        <div className={`flex ${showHint ? 'flex-col justify-center' : 'h-full items-center'}`}>
+        <div
+          className={`flex ${showHint ? 'flex-col justify-center' : 'h-full items-center'}`}
+          style={indent ? { paddingLeft: indent * 18 } : undefined}
+        >
           <div className="flex items-center">
+            {indent > 0 && (
+              <span
+                aria-hidden
+                className="mr-2 h-[18px] w-2.5 shrink-0 self-start rounded-bl-md border-b border-l border-muted-foreground/35"
+              />
+            )}
             <h4
               className={`text-md whitespace-nowrap ${
                 showHint ? 'leading-tight' : 'h-full leading-[32px]'
