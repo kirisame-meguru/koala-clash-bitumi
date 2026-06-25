@@ -20,10 +20,20 @@ In terms of functionality, the app stays compatible with the original idea of Ko
 
 ## Differences from the upstream repository
 
-- A compact interface with flexible customization by default;
+- A compact, fixed-size interface with a redesigned Home screen and flexible per-user customization;
+- Configurable sidebar with toggleable tabs, plus optional traffic-usage, remaining-traffic, and expiry columns;
+- A live status log that narrates long-running actions (import, update) in place instead of trapping you behind a blocking spinner;
+- Settings change-detection with a dedicated "changed settings" view and jump-to links;
+- Unified, readable error notifications throughout the app;
+- Clipboard autofill for the subscription-URL dialog, and one-click log export to the desktop;
+- Global Mode as a Home-screen toggle, restricted to your subscription's own nodes (no silent fall-back to DIRECT);
+- "Update Changed" - refreshes only the rule-providers whose source actually changed, instead of re-downloading every list;
+- Detects and warns when another Mihomo core is already running, before it can hijack routing;
+- Fork-specific subscription response headers for server-driven customization (custom tray menu, usage stats, config-change & global-mode warnings - see below);
 - Removed the confirmation dialog when importing a subscription via Deep Link;
-- Simplified the update-check mechanism: updates come directly from the fork's releases;
-- The visuals and user flow have been simplified for general use.
+- In-app auto-updates delivered directly from the fork's own releases;
+- Navy theme aligned to the app icon, with a themeable glow and no skin-flash on startup;
+- The overall visuals and user flow have been simplified for everyday use.
 
 ## Screenshots
 
