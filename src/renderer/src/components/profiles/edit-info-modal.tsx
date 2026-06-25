@@ -33,6 +33,10 @@ interface Props {
   updateProfileItem: (item: ProfileItem) => Promise<unknown>
   onClose: () => void
   hideAdvanced?: boolean
+  // When the caller narrates import progress elsewhere (the home status line),
+  // close the dialog the instant Import is pressed and let the import run in the
+  // background, instead of trapping the user behind a spinner that hides it.
+  closeOnSubmit?: boolean
 }
 
 function isValidUrl(url: string): boolean {
@@ -46,7 +50,14 @@ function isValidUrl(url: string): boolean {
 
 const EditInfoModal: React.FC<Props> = (props) => {
   const { t } = useTranslation()
-  const { item, isCurrent, updateProfileItem, onClose, hideAdvanced = false } = props
+  const {
+    item,
+    isCurrent,
+    updateProfileItem,
+    onClose,
+    hideAdvanced = false,
+    closeOnSubmit = false
+  } = props
   const [values, setValues] = useState({ ...item, autoUpdate: item.autoUpdate ?? true })
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [urlTouched, setUrlTouched] = useState(false)
@@ -65,9 +76,16 @@ const EditInfoModal: React.FC<Props> = (props) => {
     : true
 
   const onSave = async (): Promise<void> => {
+    const itemToSave = { ...values }
+    // Caller owns the progress narration: fire the import and dismiss immediately so
+    // the spinner never covers it. Errors are surfaced by the caller's handler.
+    if (closeOnSubmit) {
+      void Promise.resolve(updateProfileItem(itemToSave)).catch(notifyError)
+      onClose()
+      return
+    }
     setSaving(true)
     try {
-      const itemToSave = { ...values }
       await updateProfileItem(itemToSave)
       if (item.id && isCurrent) {
         await mihomoHotReloadConfig()

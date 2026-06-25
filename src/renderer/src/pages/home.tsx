@@ -80,6 +80,10 @@ const Home: React.FC = () => {
   const statusBegin = useStatusLogStore((s) => s.begin)
   const statusFinish = useStatusLogStore((s) => s.finish)
   const statusFail = useStatusLogStore((s) => s.fail)
+  // Whether an action is mid-flight or its terminal line is still fading. Used to
+  // keep the status log visible on the empty screen while the first import runs,
+  // instead of letting the "No profile" placeholder cover its narration.
+  const statusBusy = useStatusLogStore((s) => s.active || s.entries.length > 0)
 
   const [importOpen, setImportOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -117,10 +121,7 @@ const Home: React.FC = () => {
 
   const isDisabled =
     loading ||
-    (mainSwitchMode === 'sysproxy' &&
-      writeSysProxy &&
-      sysProxyMode == 'manual' &&
-      sysProxyDisabled)
+    (mainSwitchMode === 'sysproxy' && writeSysProxy && sysProxyMode == 'manual' && sysProxyDisabled)
 
   const status = loading
     ? loadingDirection === 'connecting'
@@ -205,12 +206,13 @@ const Home: React.FC = () => {
   // terminal line here since we know the outcome.
   const addProfileItemWithStatus = async (
     item: Partial<ProfileItem>,
-    failKey: 'refreshFailed' | 'addFailed'
+    failKey: 'refreshFailed' | 'addFailed',
+    successKey: 'updated' | 'added' = 'updated'
   ): Promise<ProfileUpdateResult> => {
     statusBegin()
     const result = await addProfileItem(item)
     if (result === 'updated') {
-      statusFinish('updated')
+      statusFinish(successKey)
     } else if (result === 'unchanged') {
       statusFinish('unchanged')
     } else {
@@ -220,7 +222,7 @@ const Home: React.FC = () => {
   }
 
   const onAddProfileItem = async (item: Partial<ProfileItem>): Promise<ProfileUpdateResult> =>
-    addProfileItemWithStatus(item, 'addFailed')
+    addProfileItemWithStatus(item, 'addFailed', 'added')
 
   const onRefreshSubscription = async (): Promise<void> => {
     if (!currentProfile || currentProfile.type !== 'remote' || refreshing) return
@@ -298,26 +300,41 @@ const Home: React.FC = () => {
           updateProfileItem={onAddProfileItem}
           onClose={() => setImportOpen(false)}
           hideAdvanced
+          closeOnSubmit
         />
       )}
       {!hasProfiles ? (
         <div className="h-full w-full flex items-center justify-center">
-          <div className="flex flex-col items-center gap-4 max-w-75 p-7 text-center">
-            <WifiOff className="size-16 text-muted-foreground" />
-            <h2 className="text-xl font-semibold text-foreground">{t('pages.profiles.emptyTitle')}</h2>
-            <p className="text-sm font-normal text-muted-foreground text-center">
-              {t('pages.profiles.emptyContinue')}
-              <br />
-              {t('pages.profiles.emptyOr')}
-              <button
-                type="button"
-                className="underline underline-offset-2 hover:text-foreground transition-colors"
-                onClick={() => setImportOpen(true)}
-              >
-                {t('pages.profiles.emptyPasteLink')}
-              </button>
-            </p>
-          </div>
+          {statusBusy ? (
+            <div className="flex w-full max-w-75 flex-col items-center gap-4 px-7 text-center">
+              <Spinner className="size-10 shrink-0 text-muted-foreground" />
+              {/* Reserve the log's max height and bottom-anchor it, so the spinner and the
+                  newest line keep a fixed position while earlier lines stack upward instead
+                  of re-centering the whole block as the line count changes. */}
+              <div className="flex h-16 w-full items-end">
+                <StatusLog />
+              </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-4 max-w-75 p-7 text-center">
+              <WifiOff className="size-16 text-muted-foreground" />
+              <h2 className="text-xl font-semibold text-foreground">
+                {t('pages.profiles.emptyTitle')}
+              </h2>
+              <p className="text-sm font-normal text-muted-foreground text-center">
+                {t('pages.profiles.emptyContinue')}
+                <br />
+                {t('pages.profiles.emptyOr')}
+                <button
+                  type="button"
+                  className="underline underline-offset-2 hover:text-foreground transition-colors"
+                  onClick={() => setImportOpen(true)}
+                >
+                  {t('pages.profiles.emptyPasteLink')}
+                </button>
+              </p>
+            </div>
+          )}
         </div>
       ) : (
         <div className="grid h-full grid-rows-[auto_minmax(0,1fr)_auto] px-3 pb-3">
